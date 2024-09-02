@@ -63,7 +63,5 @@ public class Watch
     {
         changedFileName = e.Name;
         File.Delete(e.FullPath);
-        Console.WriteLine("File: " + e.FullPath + " " + e.ChangeType);
-
     }
 }
