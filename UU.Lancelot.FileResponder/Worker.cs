@@ -15,7 +15,7 @@ public class Worker : BackgroundService
         {
             if (_logger.IsEnabled(LogLevel.Information))
             {
-                _logger.LogInformation(Jokes.GetJoke());
+                _logger.LogInformation(Watch.GetName());
             }
             await Task.Delay(5000, stoppingToken);
         }
@@ -24,7 +24,7 @@ public class Worker : BackgroundService
 
 public class Jokes
 {
-    static string[] jokesArray = 
+    static string[] jokesArray =
     {
     "Why did the scarecrow win an award? Because he was outstanding in his field.",
     "I'm reading a book on the history of glue. I just can't seem to put it down.",
@@ -39,5 +39,31 @@ public class Jokes
         Random random = new Random();
         int index = random.Next(jokesArray.Length);
         return jokesArray[index];
+    }
+}
+
+
+public class Watch
+{
+    static FileSystemWatcher watcher = new FileSystemWatcher();
+    static string changedFileName = "";
+
+    public static string GetName()
+    {
+        watcher.Filter = "*.*";
+        watcher.Path = @"C:\Users\marek\Desktop\testFolder";
+        watcher.NotifyFilter = NotifyFilters.LastWrite;
+        watcher.Changed += new FileSystemEventHandler(OnChanged);
+        watcher.EnableRaisingEvents = true;
+
+        return changedFileName;
+    }
+
+    static void OnChanged(object source, FileSystemEventArgs e)
+    {
+        changedFileName = e.Name;
+        File.Delete(e.FullPath);
+        Console.WriteLine("File: " + e.FullPath + " " + e.ChangeType);
+
     }
 }
