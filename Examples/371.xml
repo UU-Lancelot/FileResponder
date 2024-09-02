@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CDSREQ id="LANC-371-test" message-code="371" date-time="2022-08-30T02:03:04" dtd-version="1" dtd-release="1" xmlns="http://www.ote-cr.cz/schema/cds/request">
+    <SenderIdentification id="8591824048009" coding-scheme="14" />
+    <ReceiverIdentification id="8591824000007" coding-scheme="14" />
+    <Location date-time-from="2022-07-01T00:00:00" date-time-to="2022-10-31T00:00:00" service="0011"/>
+</CDSREQ>
