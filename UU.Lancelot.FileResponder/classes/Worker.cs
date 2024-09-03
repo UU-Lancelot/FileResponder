@@ -15,8 +15,9 @@ public class Worker : BackgroundService
         {
             if (_logger.IsEnabled(LogLevel.Information))
             {
-                _logger.LogInformation("funguju");
-                WatchDirectory.SearchFiles();
+                _logger.LogInformation("funguju" + DateTime.Now);
+                WatchDirectory.StartWatchingDirectory();
+
             }
             await Task.Delay(5000, stoppingToken);
         }

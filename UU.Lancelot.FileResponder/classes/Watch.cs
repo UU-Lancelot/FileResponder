@@ -6,7 +6,7 @@ public class WatchDirectory : IDisposable
     private static CancellationTokenSource cancellationTokenSource;
     private static Task task;
 
-    public WatchDirectory()
+    public static void StartWatchingDirectory()
     {
         cancellationTokenSource = new CancellationTokenSource();
         task = WatchFile(cancellationTokenSource.Token);
@@ -17,14 +17,13 @@ public class WatchDirectory : IDisposable
         while (!cancellationToken.IsCancellationRequested)
         {
             await Task.Delay(1000);
-            
-            List<string> newFiles = SearchFiles();
 
+            List<string> newFiles = SearchFiles();
             if (newFiles.Count > 0)
             {
                 foreach (string file in newFiles)
                 {
-                    DeleteFile(file);
+                    File.Delete(file);
                 }
             }
         }
@@ -40,19 +39,16 @@ public class WatchDirectory : IDisposable
         return newFiles;
     }
 
-    public static void DeleteFile(string fileName)
-    {
-        if (File.Exists(fileName))
-        {
-            File.Delete(fileName);
-        }
-    }
-
     public void Dispose()
     {
         cancellationTokenSource.Cancel();
         task.Wait();
 
         cancellationTokenSource.Dispose();
+    }
+
+    public static string GetFileString()
+    {
+        return string.Join("", knownFiles);
     }
 }
