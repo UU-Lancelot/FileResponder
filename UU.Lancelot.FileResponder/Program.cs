@@ -9,7 +9,7 @@ builder.Services.AddWindowsService(options =>
 });
 
 LoggerProviderOptions.RegisterProviderOptions<
-    EventLogSettings, EventLogLoggerProvider>(builder.Services);
+EventLogSettings, EventLogLoggerProvider>(builder.Services);
 
 builder.Services.AddSingleton<Worker>();
 builder.Services.AddHostedService<Worker>();

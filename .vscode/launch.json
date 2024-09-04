@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/UU.Lancelot.FileResponder/bin/Debug/net8.0/UU.Lancelot.FileResponder.dll",
+            "program": "${workspaceFolder}/UU.Lancelot.FileResponder/bin/Debug/net8.0/win-x64/UU.Lancelot.FileResponder.dll",
             "args": [],
             "cwd": "${workspaceFolder}/UU.Lancelot.FileResponder",
             "console": "internalConsole",
