@@ -3,10 +3,10 @@ class WatchDirectory : IDisposable
 {
     private static readonly string DirectoryPath = @"C:\Users\marek\Desktop\testFolder";
     private List<string> knownFiles = new List<string>();
-    private CancellationTokenSource cancellationTokenSource;
-    private Task task;
+    private CancellationTokenSource? cancellationTokenSource;
+    private Task? task;
 
-    public event EventHandler<string> pathFileChangedEventHandler;
+    public event EventHandler<string>? pathFileChangedEventHandler;
 
     public void StartWatchingDirectory()
     {
@@ -41,8 +41,11 @@ class WatchDirectory : IDisposable
 
     public void Dispose()
     {
-        cancellationTokenSource.Cancel();
-        task.Wait();
-        cancellationTokenSource.Dispose();
+        if (cancellationTokenSource != null && task != null)
+        {
+            cancellationTokenSource.Cancel();
+            task.Wait();
+            cancellationTokenSource.Dispose();
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace UU.Lancelot.FileResponder
             }
         }
 
-        public static void Delete_EventHandler(object sender, string filePath)
+        public static void Delete_EventHandler(object? sender, string filePath)
         {
             DeleteFile(filePath);
         }
