@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ISOTEDATA
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  answer-required="false"
+  dtd-version="1" 
+  dtd-release="1"
+  message-code="813"
+  id="{{ Random.IntRange(10000000000000, 99999999999999) }}"
+  date-time="{{ Datetime.Now }}"
+  xmlns="http://www.ote-cr.cz/schema/market/data">
+    <SenderIdentification
+      coding-scheme="{{ Input.*.ReceiverIdentification.coding-scheme }}"
+      id="{{ Input.*.ReceiverIdentification.id }}" />
+    <ReceiverIdentification
+      coding-scheme="{{ Input.*.SenderIdentification.coding-scheme }}"
+      id="{{ Input.*.SenderIdentification.id }}" />
+    <Reference id="{{ Input.*[id] }}" />
+    <Trade source-sys="OTE" sett-curr="CZK" util-flag="1" trade-market-flag="SPT" version="0" trade-state="N" trade-type="N" id="716347" trade-day="2019-11-02" trade-flag="N" trade-stage="P" acceptance="N" error-code="0" replacement="N">
+      <TimeData datetime="2019-11-01T10:37:41" datetime-type="DTC" />
+      <ProfileData profile-role="BP01">
+        {{ For.item.In(5) }} <!-- 5x opakuj, index ulož do item -->
+          <Data
+            value="100.00"
+            period="{{ item + 3 }}"
+            splitting="A"
+            unit="EUR" />
+        {{ End }}
+      </ProfileData>
+      <ProfileData profile-role="BC01">
+        {{ For.item.In(5) }}
+          <Data 
+            value="{{ Random.DecimalRange(0, 100) }}"
+            period="{{ item + 3 }}"
+            splitting="A"
+            unit="EUR" />
+        {{ End }}
+      </ProfileData>
+      <Comment />
+      <Party id="8591824289006" role="TO" />
+    </Trade>
+</ISOTEDATA>
