@@ -5,6 +5,6 @@ public class XmlFormatIO : IFormatIO
 {
     public string Format(string fileContent, IReplacer replacer)
     {
-        throw new NotImplementedException();
+        return fileContent;
     }
 }
