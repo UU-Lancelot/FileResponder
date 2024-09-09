@@ -1,7 +1,6 @@
 using UU.Lancelot.FileResponder.FormatIO;
 using UU.Lancelot.FileResponder.Interfaces;
 using UU.Lancelot.FileResponder.Replacers;
-using UU.Lancelot.FileResponder.Classes;
 
 // var builder = Host.CreateApplicationBuilder(args);
 // builder.Services.AddHostedService<Worker>();
@@ -17,7 +16,12 @@ string templateContent = File.ReadAllText("../Examples/template.xml");
 string result = formatIO.Format(templateContent, replacer);
 //Console.WriteLine(result);
 
-FindPlaceholdersXml findPlaceholdersXml = new FindPlaceholdersXml();
+XmlFormatIO XmlFormatIO = new XmlFormatIO();
 
-findPlaceholdersXml.Read(templateContent);
+//XmlFormatIO.Read(templateContent);
+
+
+XmlFormatIO.ReadXml(templateContent, @"C:\Users\marek\Desktop\New Text Document.txt");
+Console.WriteLine("Test passed.");
+
 // END TEST //
