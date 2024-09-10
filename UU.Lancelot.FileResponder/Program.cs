@@ -21,7 +21,9 @@ XmlFormatIO XmlFormatIO = new XmlFormatIO();
 //XmlFormatIO.Read(templateContent);
 
 
-XmlFormatIO.ReadXml(templateContent, @"C:\Users\marek\Desktop\New Text Document.txt");
-Console.WriteLine("Test passed.");
+//XmlFormatIO.ReadXml(templateContent, @"C:\Users\marek\Desktop\New Text Document.txt");
+
+ReplacerMain replacerMain = new ReplacerMain();
+Console.WriteLine(replacerMain.ReplaceValue("IntRa"));
 
 // END TEST //
