@@ -16,22 +16,7 @@ class ReplacerMain : IReplacer
         switch (replacerClass)
         {
             case "Random":
-                switch (replacerMethod)
-                {
-                    case "ReplaceIntValue":
-                        return replacerRandom.ReplaceIntValue().ToString();
-                    case "ReplaceStringValue":
-                        return replacerRandom.ReplaceStringValue(10);   //random value
-                    default:
-                        Console.WriteLine($"Replacer Class {replacerClass} is not implemented.");
-                        return "";
-                }
-
-
-            case "String":
-                return "String";
-
-
+                return replacerRandom.ChooseMethod(replacerMethod);
             default:
                 Console.WriteLine($"Replacer Class {replacerClass} is not implemented.");
                 return "";

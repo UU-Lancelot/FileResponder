@@ -28,6 +28,7 @@ ReplacerMain replacerMain = new ReplacerMain();
 string result1 = replacerMain.ReplaceValue("Random.ReplaceIntValue");
 string result2 = replacerMain.ReplaceValue("Random.ReplaceStringValue");
 
-System.Console.WriteLine(result1);
-System.Console.WriteLine(result2);
+Console.WriteLine(result1);
+Console.WriteLine(result2);
+
 // END TEST //
