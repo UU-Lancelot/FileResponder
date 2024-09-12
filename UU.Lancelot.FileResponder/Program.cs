@@ -24,6 +24,10 @@ XmlFormatIO XmlFormatIO = new XmlFormatIO();
 //XmlFormatIO.ReadXml(templateContent, @"C:\Users\marek\Desktop\New Text Document.txt");
 
 ReplacerMain replacerMain = new ReplacerMain();
-Console.WriteLine(replacerMain.ReplaceValue("IntRa"));
 
+string result1 = replacerMain.ReplaceValue("Random.ReplaceIntValue");
+string result2 = replacerMain.ReplaceValue("Random.ReplaceStringValue");
+
+System.Console.WriteLine(result1);
+System.Console.WriteLine(result2);
 // END TEST //

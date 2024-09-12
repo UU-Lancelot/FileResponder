@@ -10,16 +10,30 @@ class ReplacerMain : IReplacer
     {
         string[] parts = placeholder.Split('.');
 
-        string method = parts[0];
+        string replacerClass = parts[0];
+        string replacerMethod = parts[1];
 
-        switch (method)
+        switch (replacerClass)
         {
-            case "IntRange":
-                return "IntRange";
+            case "Random":
+                switch (replacerMethod)
+                {
+                    case "ReplaceIntValue":
+                        return replacerRandom.ReplaceIntValue().ToString();
+                    case "ReplaceStringValue":
+                        return replacerRandom.ReplaceStringValue(10);   //random value
+                    default:
+                        Console.WriteLine($"Replacer Class {replacerClass} is not implemented.");
+                        return "";
+                }
+
+
             case "String":
                 return "String";
+
+
             default:
-                Console.WriteLine($"Method {method} is not implemented.");
+                Console.WriteLine($"Replacer Class {replacerClass} is not implemented.");
                 return "";
         }
     }
