@@ -29,7 +29,4 @@ using Microsoft.Extensions.Configuration;
 // Console.WriteLine(result2);
 
 
-
-
-
 var instances = InstanceSettings.GetInstances();

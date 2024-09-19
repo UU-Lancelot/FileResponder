@@ -7,16 +7,32 @@ public class InstanceSettings
 
     public static List<InstanceSettings>? GetInstances()
     {
-        var configuration = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json")
-            .AddEnvironmentVariables()
-            .Build();
+        string path = "appsettings.json";
 
-        var settings = configuration.GetSection("Instances").Get<List<InstanceSettings>>();
+        if (IsFileEmpty(path))
+        {   //smazat
+            Console.WriteLine("Configuration file not found or empty");
+            //smazat
+            return null;
+        }
+        else
+        {
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile(path)
+                .AddEnvironmentVariables()
+                .Build();
 
-        RemoveInvalidInstances(settings);
+            var settings = configuration.GetSection("Instances").Get<List<InstanceSettings>>();
 
-        return settings;
+            RemoveInvalidInstances(settings);
+
+            return settings;
+        }
+    }
+
+    static bool IsFileEmpty(string path)
+    {
+        return !File.Exists(path) || new FileInfo(path).Length == 0;
     }
 
     public static void RemoveInvalidInstances(List<InstanceSettings>? instances)
