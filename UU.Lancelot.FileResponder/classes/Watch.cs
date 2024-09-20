@@ -1,7 +1,7 @@
 namespace UU.Lancelot.FileResponder;
 class WatchDirectory : IDisposable
 {
-    private static readonly string DirectoryPath = @".testFolder";
+    private const string DIRECTORYPATH = @"C:\Users\Marek\Desktop\test";
     private List<string> knownFiles = new List<string>();
     private CancellationTokenSource? cancellationTokenSource;
     public Task? task;
@@ -31,13 +31,14 @@ class WatchDirectory : IDisposable
 
     public List<string> SearchFiles()
     {
-        List<string> allFiles = Directory.GetFiles(DirectoryPath).ToList();
+        List<string> allFiles = Directory.GetFiles(DIRECTORYPATH).ToList();
         var newFiles = allFiles.Except(knownFiles).ToList();
 
         knownFiles = allFiles;
 
         return newFiles;
     }
+
 
     public void Dispose()
     {

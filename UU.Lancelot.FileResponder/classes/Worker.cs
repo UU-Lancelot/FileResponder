@@ -20,6 +20,7 @@ public class Worker : BackgroundService
             {
                 _logger.LogInformation("funguju" + DateTime.Now);
             }
+            //wait till its not finished or stoppingToken. ! for warrning
             await watchDirectory.task!.WaitAsync(stoppingToken);
         }
     }
