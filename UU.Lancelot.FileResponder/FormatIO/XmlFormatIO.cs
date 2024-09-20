@@ -6,17 +6,12 @@ using System.Xml;
 namespace UU.Lancelot.FileResponder.FormatIO;
 public class XmlFormatIO : IFormatIO
 {
-    public string Format(string fileContent, IReplacer replacer)
-    {
-        return fileContent;
-    }
-
-    public void ReadXml(string fileContent, string filePath)
+    public void Format(Stream fileContent, Stream resultContent, IReplacer replacer)
     {
         XmlDocument xmlDocument = new XmlDocument();
-        xmlDocument.LoadXml(fileContent);
+        xmlDocument.Load(fileContent);
 
-        using (StreamWriter streamWriter = new StreamWriter(filePath))
+        using (StreamWriter streamWriter = new StreamWriter(resultContent))
         using (XmlWriter xmlWriter = XmlWriter.Create(streamWriter))
         {
             Regex regex = new Regex(@"\{\{(.*?)\}\}");

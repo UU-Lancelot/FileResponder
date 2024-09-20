@@ -11,9 +11,10 @@ using UU.Lancelot.FileResponder.Replacers;
 // TEST //
 IReplacer replacer = new PseudoReplacer();
 IFormatIO formatIO = new XmlFormatIO();
-string templateContent = File.ReadAllText("../Examples/template.xml");
+FileStream templateContent = File.OpenRead("../Examples/template.xml");
+FileStream resultContent = File.Create("../Examples/result.xml");
 
-string result = formatIO.Format(templateContent, replacer);
+formatIO.Format(templateContent, resultContent, replacer);
 //Console.WriteLine(result);
 
 XmlFormatIO XmlFormatIO = new XmlFormatIO();
