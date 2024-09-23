@@ -1,10 +1,10 @@
 namespace UU.Lancelot.FileResponder;
 class WatchDirectory : IDisposable
 {
-    private static readonly string DirectoryPath = @"C:\Users\marek\Desktop\testFolder";
+    private static readonly string DirectoryPath = @".testFolder";
     private List<string> knownFiles = new List<string>();
     private CancellationTokenSource? cancellationTokenSource;
-    private Task? task;
+    public Task? task;
 
     public event EventHandler<string>? pathFileChangedEventHandler;
 
@@ -22,7 +22,7 @@ class WatchDirectory : IDisposable
 
             foreach (string file in newFiles)
             {
-                pathFileChangedEventHandler?.Invoke(null, file);
+                pathFileChangedEventHandler?.Invoke(this, file);
             }
 
             await Task.Delay(1000);
