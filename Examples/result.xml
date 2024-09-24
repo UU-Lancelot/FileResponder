@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ISOTEDATA xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" answer-required="false" dtd-version="1"
+    dtd-release="1" message-code="813" id="60670276548761" date-time="9/24/2024 14:08:57"
+    xmlns="http://www.ote-cr.cz/schema/market/data">
+    <SenderIdentification coding-scheme="" id="" />
+    <ReceiverIdentification coding-scheme="" id="" />
+    <Reference id="" />
+    <Trade source-sys="OTE" sett-curr="CZK" util-flag="1" trade-market-flag="SPT" version="0"
+        trade-state="N" trade-type="N" id="716347" trade-day="2019-11-02" trade-flag="N"
+        trade-stage="P" acceptance="N" error-code="0" replacement="N">
+        <TimeData datetime="2019-11-01T10:37:41" datetime-type="DTC" />
+        <ProfileData profile-role="BP01"><!-- 5x opakuj, index ulož do item -->
+            <Data value="100.00" period="" splitting="A" unit="EUR" />
+        </ProfileData>
+        <ProfileData profile-role="BC01">
+            <Data value="" period="" splitting="A" unit="EUR" />
+        </ProfileData>
+        <Comment />
+        <Party id="8591824289006" role="TO" />
+    </Trade>
+</ISOTEDATA>

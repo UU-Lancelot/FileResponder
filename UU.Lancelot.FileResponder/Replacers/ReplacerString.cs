@@ -1,3 +1,4 @@
+using System.Security.Cryptography.X509Certificates;
 using UU.Lancelot.FileResponder.Interfaces;
 
 namespace UU.Lancelot.FileResponder.Replacers
@@ -11,26 +12,31 @@ namespace UU.Lancelot.FileResponder.Replacers
 
         public string ReplaceValue(string placeholder)
         {
-            throw new NotImplementedException();
-        }
+            string[] parts = placeholder.Split(new char[] { '(', ',', ')' }, StringSplitOptions.RemoveEmptyEntries);
+            string method = parts[0].Trim();
+            string[] words = parts.Skip(1).ToArray();
+                        
 
-        public string ChooseMethod(string method)
-        {
             switch (method)
             {
-                case "ReplaceStringValue":
-                    return Concat();
+                case "Concat":
+                    return Concat(words);
                 case "Repeat":
-                    return Repeat("Hello");
+                    return Repeat(words[0]);
                 default:
                     Console.WriteLine($"String Replacer Class {method} is not implemented.");
                     return "";
             }
         }
 
-        string Concat()
+        string Concat(string[] words)
         {
-            return "Hello" + " " + "World";
+            string result = "";
+            foreach (string word in words)
+            {
+                result += word.Trim('"');
+            }
+            return result;
         }
 
         string Repeat(string value)

@@ -1,3 +1,4 @@
+
 using UU.Lancelot.FileResponder.Interfaces;
 
 namespace UU.Lancelot.FileResponder.Replacers
@@ -7,49 +8,61 @@ namespace UU.Lancelot.FileResponder.Replacers
         static Random random = new Random();
         public string ReplaceValue(string placeholder)
         {
-            return placeholder;
+            try
+            {
+                string[] parts = placeholder.Split(new char[] { '(', ',', ')' }, StringSplitOptions.RemoveEmptyEntries);
+                string method = parts[0].Trim();
+                System.Console.WriteLine(parts[1]);
+                long num1 = parts.Length >= 2 ? long.Parse(parts[1].Trim()) : 0;
+                long num2 = parts.Length >= 3 ? long.Parse(parts[2].Trim()) : 0;
+
+
+                switch (method)
+                {
+                    case "IntRange":
+                        return IntValue(num1, num2).ToString();
+                    case "String":
+                        return StringValue(num1);
+                    case "Bool":
+                        return BoolValue(num1).ToString();
+                    default:
+                        Console.WriteLine($"Random Replacer Class {method} is not implemented.");
+                        return "";
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"An error occurred: {e.Message}");
+                return "";
+            }
         }
         public IEnumerable<object> ReplaceBlock(string placeholder)
         {
             yield return placeholder;
         }
 
-        public string ChooseMethod(string method)
+        long IntValue(long min = 100, long max = 999)
         {
-            switch (method)
-            {
-                case "ReplaceIntValue":
-                    return IntValue().ToString();
-                case "ReplaceStringValue":
-                    return StringValue(10);
-                case "ReplaceBoolValue":
-                    return BoolValue().ToString();
-                default:
-                    Console.WriteLine($"Random Replacer Class {method} is not implemented.");
-                    return "";
-            }
-        }
-        int IntValue()
-        {
-            return random.Next(100, 999);
+            //+1 to include max value
+            return random.NextInt64(min, max + 1);
         }
 
-        string StringValue(int length)
+        string StringValue(long length)
         {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            const string CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             string randomString = "";
-            for (int i = 0; i < length; i++)
+            for (long i = 0; i < length; i++)
             {
-                randomString += chars[random.Next(chars.Length)];
+                randomString += CHARS[random.Next(CHARS.Length)];
             }
 
             return randomString;
         }
 
-        bool BoolValue()
+        bool BoolValue(long chanceForTrue = 50)
         {
             int randomInt = random.Next(1, 100);
-            return randomInt <= 60;
+            return randomInt <= chanceForTrue;
         }
 
 

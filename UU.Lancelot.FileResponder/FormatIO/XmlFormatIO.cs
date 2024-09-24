@@ -1,11 +1,13 @@
 using UU.Lancelot.FileResponder.Interfaces;
 using System.Text.RegularExpressions;
 using System.Xml;
+using UU.Lancelot.FileResponder.Replacers;
 
 
 namespace UU.Lancelot.FileResponder.FormatIO;
 public class XmlFormatIO : IFormatIO
 {
+    static ReplacerMain replacerMain = new ReplacerMain();
     public void Format(Stream fileContent, Stream resultContent, IReplacer replacer)
     {
         XmlDocument xmlDocument = new XmlDocument();
@@ -33,9 +35,7 @@ public class XmlFormatIO : IFormatIO
             {
                 if (regex.IsMatch(attribute.Value))
                 {
-                    Console.WriteLine("Found placeholder in attribute: " + attribute.Value.Trim());
-                    //call Format
-                    attribute.Value = attribute.Value.Replace("{{", "").Replace("}}", "ahooooooooj");
+                    attribute.Value = TrimAndReplaceValue(attribute.Value);
                 }
             }
         }
@@ -44,9 +44,7 @@ public class XmlFormatIO : IFormatIO
         {
             if (regex.IsMatch(xmlNode.Value))
             {
-                Console.WriteLine("Found placeholder in text: " + xmlNode.Value.Trim());
-                //call Format
-                xmlNode.Value = xmlNode.Value.Replace("{{", "").Replace("}}", "ahooooooooj");
+                xmlNode.Value = TrimAndReplaceValue(xmlNode.Value);
             }
         }
 
@@ -54,5 +52,10 @@ public class XmlFormatIO : IFormatIO
         {
             ProcessXmlNode(childNode, regex);
         }
+    }
+
+    public string TrimAndReplaceValue(string value)
+    {
+        return replacerMain.ReplaceValue(value.Trim('{', '{', '}', '}', ' '));
     }
 }
