@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ISOTEDATA xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" answer-required="false" dtd-version="1"
-    dtd-release="1" message-code="813" id="60670276548761" date-time="9/24/2024 14:08:57"
+    dtd-release="1" message-code="813" id="70642702572410" date-time="9/24/2024 16:07:05"
     xmlns="http://www.ote-cr.cz/schema/market/data">
     <SenderIdentification coding-scheme="" id="" />
     <ReceiverIdentification coding-scheme="" id="" />
@@ -14,7 +14,7 @@
             <Data value="100.00" period="" splitting="A" unit="EUR" />
         </ProfileData>
         <ProfileData profile-role="BC01">
-            <Data value="" period="" splitting="A" unit="EUR" />
+            <Data value="32.84150531775277" period="" splitting="A" unit="EUR" />
         </ProfileData>
         <Comment />
         <Party id="8591824289006" role="TO" />
