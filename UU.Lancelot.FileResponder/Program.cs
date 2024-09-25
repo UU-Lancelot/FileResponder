@@ -11,8 +11,7 @@ if (OperatingSystem.IsWindows())
         options.ServiceName = "Lancelot FileResponder";
     });
 
-    LoggerProviderOptions.RegisterProviderOptions<
-    EventLogSettings, EventLogLoggerProvider>(builder.Services);
+    LoggerProviderOptions.RegisterProviderOptions<EventLogSettings, EventLogLoggerProvider>(builder.Services);
 
     builder.Services.AddSingleton<Worker>();
     builder.Services.AddHostedService<Worker>();
