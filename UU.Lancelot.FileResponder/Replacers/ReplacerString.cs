@@ -15,14 +15,14 @@ namespace UU.Lancelot.FileResponder.Replacers
             string[] parts = placeholder.Split(new char[] { '(', ',', ')' }, StringSplitOptions.RemoveEmptyEntries);
             string method = parts[0].Trim();
             string[] words = parts.Skip(1).ToArray();
-                        
+
 
             switch (method)
             {
                 case "Concat":
                     return Concat(words);
                 case "Repeat":
-                    return Repeat(words[0]);
+                    return Repeat(words[0], words[1]);
                 default:
                     Console.WriteLine($"String Replacer Class {method} is not implemented.");
                     return "";
@@ -39,10 +39,11 @@ namespace UU.Lancelot.FileResponder.Replacers
             return result;
         }
 
-        string Repeat(string value)
+        string Repeat(string value, string? count)
         {
+            int actualCount = int.TryParse(count, out int parsedCount) ? parsedCount : 10;
             string result = "";
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < actualCount; i++)
             {
                 result += value;
             }

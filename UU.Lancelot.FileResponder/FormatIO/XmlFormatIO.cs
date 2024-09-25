@@ -16,7 +16,7 @@ public class XmlFormatIO : IFormatIO
         using (StreamWriter streamWriter = new StreamWriter(resultContent))
         using (XmlWriter xmlWriter = XmlWriter.Create(streamWriter))
         {
-            Regex regex = new Regex(@"\{\{(.*?)\}\}");
+            Regex regex = new Regex(@"\{\{(.*)\}\}");
 
             ProcessXmlNode(xmlDocument.DocumentElement, regex);
 
@@ -56,6 +56,6 @@ public class XmlFormatIO : IFormatIO
 
     public string TrimAndReplaceValue(string value)
     {
-        return replacerMain.ReplaceValue(value.Trim('{', '{', '}', '}', ' '));
+        return replacerMain.ReplaceValue(value.Trim('{', ' ', '}'));
     }
 }

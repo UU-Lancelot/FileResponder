@@ -11,8 +11,6 @@ public class ReplacerDatetime : IReplacer
 
     public string ReplaceValue(string placeholder)
     {
-        try
-        {
             string method = placeholder.Split(".")[0].Trim();
 
             switch (method)
@@ -23,11 +21,5 @@ public class ReplacerDatetime : IReplacer
                     Console.WriteLine($"DateTime Replacer Class {method} is not implemented.");
                     return "";
             }
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine($"An error occurred: {e.Message}");
-            return "";
-        }
     }
 }

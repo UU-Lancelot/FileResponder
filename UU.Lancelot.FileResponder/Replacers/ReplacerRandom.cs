@@ -8,33 +8,25 @@ namespace UU.Lancelot.FileResponder.Replacers
         static Random random = new Random();
         public string ReplaceValue(string placeholder)
         {
-            try
-            {
-                string[] parts = placeholder.Split(new char[] { '(', ',', ')' }, StringSplitOptions.RemoveEmptyEntries);
-                string method = parts[0].Trim();
-                double? num1 = parts.Length >= 2 ? double.Parse(parts[1].Trim()) : null;
-                double? num2 = parts.Length >= 3 ? double.Parse(parts[2].Trim()) : null;
+            string[] parts = placeholder.Split(new char[] { '(', ',', ')' }, StringSplitOptions.RemoveEmptyEntries);
+            string method = parts[0].Trim();
+            double? num1 = parts.Length >= 2 ? double.Parse(parts[1].Trim()) : null;
+            double? num2 = parts.Length >= 3 ? double.Parse(parts[2].Trim()) : null;
 
 
-                switch (method)
-                {
-                    case "IntRange":
-                        return IntRange(num1, num2);
-                    case "DecimalRange":
-                        return DecimalRange(num1, num2);
-                    case "String":
-                        return StringValue(num1);
-                    case "Bool":
-                        return BoolValue(num1);
-                    default:
-                        Console.WriteLine($"Random Replacer Class {method} is not implemented.");
-                        return "";
-                }
-            }
-            catch (Exception e)
+            switch (method)
             {
-                Console.WriteLine($"An error occurred: {e.Message}");
-                return "";
+                case "IntRange":
+                    return IntRange(num1, num2);
+                case "DecimalRange":
+                    return DecimalRange(num1, num2);
+                case "String":
+                    return StringValue(num1);
+                case "Bool":
+                    return BoolValue(num1);
+                default:
+                    Console.WriteLine($"Random Replacer Class {method} is not implemented.");
+                    return "";
             }
         }
         public IEnumerable<object> ReplaceBlock(string placeholder)
@@ -79,7 +71,7 @@ namespace UU.Lancelot.FileResponder.Replacers
         {
             double actualChance = chanceForTrue ?? 50;
             int randomInt = random.Next(1, 100);
-            return (randomInt <= chanceForTrue).ToString();
+            return (randomInt <= actualChance).ToString();
         }
 
 

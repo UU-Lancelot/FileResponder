@@ -19,7 +19,7 @@ class ReplacerMain : IReplacer
         else
         {
             string replacerClass = placeholder.Split('.')[0];
-            string methodAndParameters = placeholder.Replace($"{replacerClass}.", "");
+            string methodAndParameters = placeholder.Substring(replacerClass.Length + 1);
             switch (replacerClass)
             {
                 case "Random":
