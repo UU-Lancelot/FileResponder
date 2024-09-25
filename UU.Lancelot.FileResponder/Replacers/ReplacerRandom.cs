@@ -12,8 +12,8 @@ namespace UU.Lancelot.FileResponder.Replacers
             {
                 string[] parts = placeholder.Split(new char[] { '(', ',', ')' }, StringSplitOptions.RemoveEmptyEntries);
                 string method = parts[0].Trim();
-                long num1 = parts.Length >= 2 ? long.Parse(parts[1].Trim()) : 0;
-                long num2 = parts.Length >= 3 ? long.Parse(parts[2].Trim()) : 0;
+                double? num1 = parts.Length >= 2 ? double.Parse(parts[1].Trim()) : null;
+                double? num2 = parts.Length >= 3 ? double.Parse(parts[2].Trim()) : null;
 
 
                 switch (method)
@@ -42,25 +42,32 @@ namespace UU.Lancelot.FileResponder.Replacers
             yield return placeholder;
         }
 
-        string IntRange(long min = 100, long max = 999)
+        string IntRange(double? min, double? max)
         {
-            //+1 to include max value
-            return random.NextInt64(min, max + 1).ToString();
+            // Použití výchozích hodnot, pokud jsou parametry null
+            double actualMin = min ?? 100;
+            double actualMax = max ?? 999;
+
+            // +1 to include max value
+            return random.NextInt64(Convert.ToInt64(actualMin), Convert.ToInt64(actualMax + 1)).ToString();
         }
 
-        string DecimalRange(long min = 100, long max = 999)
+        string DecimalRange(double? min, double? max)
         {
+            double actualMin = min ?? 100;
+            double actualMax = max ?? 999;
             //return random decimal between 0 - 1
             var result = random.NextDouble();
             //nextint returns min <= x < max
-            result += random.NextInt64(min, max);
+            result += random.NextInt64(Convert.ToInt64(actualMin), Convert.ToInt64(actualMax));
             return result.ToString();
         }
-        string StringValue(long length)
+        string StringValue(double? length)
         {
+            double actualLength = length ?? 10;
             const string CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             string randomString = "";
-            for (long i = 0; i < length; i++)
+            for (double i = 0; i < actualLength; i++)
             {
                 randomString += CHARS[random.Next(CHARS.Length)];
             }
@@ -68,8 +75,9 @@ namespace UU.Lancelot.FileResponder.Replacers
             return randomString;
         }
 
-        string BoolValue(long chanceForTrue = 50)
+        string BoolValue(double? chanceForTrue)
         {
+            double actualChance = chanceForTrue ?? 50;
             int randomInt = random.Next(1, 100);
             return (randomInt <= chanceForTrue).ToString();
         }
