@@ -41,7 +41,6 @@ namespace UU.Lancelot.FileResponder.Replacers
         }
         string IntRange(double? min, double? max)
         {
-            // Použití výchozích hodnot, pokud jsou parametry null
             double actualMin = min ?? 100;
             double actualMax = max ?? 999;
             if (FirstIsGreater(actualMin, actualMax))
