@@ -18,7 +18,7 @@ public class Worker : BackgroundService
 
             if (_logger.IsEnabled(LogLevel.Information))
             {
-                _logger.LogInformation("funguju" + DateTime.Now);
+                _logger.LogInformation("funguju " + DateTime.Now);
             }
             //wait till its not finished or stoppingToken. ! for warrning
             await watchDirectory.task!.WaitAsync(stoppingToken);

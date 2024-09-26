@@ -2,9 +2,8 @@ using Microsoft.Extensions.Logging.Configuration;
 using Microsoft.Extensions.Logging.EventLog;
 using UU.Lancelot.FileResponder;
 
-if (OperatingSystem.IsWindows())
-{
 
+#if WINDOWS
     HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
     builder.Services.AddWindowsService(options =>
     {
@@ -19,8 +18,6 @@ if (OperatingSystem.IsWindows())
 
     IHost host = builder.Build();
     host.Run();
-}
-else
-{
+#else
     Console.WriteLine("This service can only run on Windows.");
-}
+#endif

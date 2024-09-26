@@ -1,7 +1,7 @@
 namespace UU.Lancelot.FileResponder;
 class WatchDirectory : IDisposable
 {
-    private const string DIRECTORYPATH = @"C:\Users\Marek\Desktop\test";
+    private const string DIRECTORYPATH = @".\testFolder";
     private List<string> knownFiles = new List<string>();
     private CancellationTokenSource? cancellationTokenSource;
     public Task? task;
