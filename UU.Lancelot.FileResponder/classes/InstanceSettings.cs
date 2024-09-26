@@ -3,30 +3,29 @@ public class InstanceSettings
     public string? InputDir { get; set; }
     public string? OutputDir { get; set; }
     public string? TemplatePath { get; set; }
+    public static List<InstanceSettings>? Instances { get; set; } = new List<InstanceSettings>();
 
-
-    public static List<InstanceSettings>? GetInstances()
+    public static void GetInstances()
     {
         string path = "appsettings.json";
-
-        if (IsFileEmpty(path))
-        {   //smazat
-            Console.WriteLine("Configuration file not found or empty");
-            //smazat
-            return null;
-        }
-        else
+    
+        if (!IsFileEmpty(path))
         {
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile(path)
-                .AddEnvironmentVariables()
                 .Build();
-
+    
             var settings = configuration.GetSection("Instances").Get<List<InstanceSettings>>();
-
-            RemoveInvalidInstances(settings);
-
-            return settings;
+    
+            if (settings != null)
+            {
+                RemoveInvalidInstances(settings);
+    
+                foreach (var setting in settings)
+                {
+                    Instances?.Add(setting);
+                }
+            }
         }
     }
 
@@ -37,31 +36,12 @@ public class InstanceSettings
 
     public static void RemoveInvalidInstances(List<InstanceSettings>? instances)
     {
-        instances?.RemoveAll(x => !x.IsValid());
-        //smazat
-        if (instances != null)
-        {
-            foreach (var instance in instances)
-            {
-                instance.Print();
-            }
-        }
-        else
-        {
-            Console.WriteLine("No instances found");
-        }
-        //
+        instances?.RemoveAll(x => x.IsInvalid());
     }
-    public bool IsValid()
+    public bool IsInvalid()
     {
-        return !string.IsNullOrWhiteSpace(InputDir) &&
-               !string.IsNullOrWhiteSpace(OutputDir) &&
-               !string.IsNullOrWhiteSpace(TemplatePath);
+        return string.IsNullOrWhiteSpace(InputDir) ||
+               string.IsNullOrWhiteSpace(OutputDir) ||
+               string.IsNullOrWhiteSpace(TemplatePath);
     }
-    //smazat
-    public void Print()
-    {
-        Console.WriteLine($"InputDir: {InputDir} OutputDir: {OutputDir} TemplatePath: {TemplatePath}");
-    }
-    //
 }
