@@ -6,6 +6,7 @@ namespace UU.Lancelot.FileResponder.Replacers
     public class ReplacerRandom : IReplacer
     {
         static Random random = new Random();
+        public Exception exception { get; set; } = new Exception();
         public string ReplaceValue(string placeholder)
         {
             string[] parts = placeholder.Split(new char[] { '(', ',', ')' }, StringSplitOptions.RemoveEmptyEntries);
@@ -34,14 +35,23 @@ namespace UU.Lancelot.FileResponder.Replacers
             yield return placeholder;
         }
 
+        bool FirstIsGreater(double? a, double? b)
+        {
+            return a >= b;
+        }
         string IntRange(double? min, double? max)
         {
             // Použití výchozích hodnot, pokud jsou parametry null
             double actualMin = min ?? 100;
             double actualMax = max ?? 999;
-
-            // +1 to include max value
-            return random.NextInt64(Convert.ToInt64(actualMin), Convert.ToInt64(actualMax + 1)).ToString();
+            if (FirstIsGreater(actualMin, actualMax))
+            {
+                throw new Exception("min should be less than or equal to max");
+            }
+            else
+            {   // +1 to include max value
+                return random.NextInt64(Convert.ToInt64(actualMin), Convert.ToInt64(actualMax + 1)).ToString();
+            }
         }
 
         string DecimalRange(double? min, double? max)
@@ -51,8 +61,16 @@ namespace UU.Lancelot.FileResponder.Replacers
             //return random decimal between 0 - 1
             var result = random.NextDouble();
             //nextint returns min <= x < max
-            result += random.NextInt64(Convert.ToInt64(actualMin), Convert.ToInt64(actualMax));
-            return result.ToString();
+
+            if (FirstIsGreater(min, max))
+            {
+                throw new Exception("min should be less than or equal to max");
+            }
+            else
+            {
+                result += random.NextInt64(Convert.ToInt64(actualMin), Convert.ToInt64(actualMax));
+                return result.ToString();
+            }
         }
         string StringValue(double? length)
         {
