@@ -1,18 +1,17 @@
 public class InstanceSettings
 {
+    const string PATH = "appsettings.json";
     public string? InputDir { get; set; }
     public string? OutputDir { get; set; }
     public string? TemplatePath { get; set; }
     public static List<InstanceSettings>? Instances { get; set; } = new List<InstanceSettings>();
 
-    public static void GetInstances()
+    public static void LoadInstances()
     {
-        string path = "appsettings.json";
-    
-        if (!IsFileEmpty(path))
+        if (!IsFileEmpty(PATH))
         {
             var configuration = new ConfigurationBuilder()
-                .AddJsonFile(path)
+                .AddJsonFile(PATH)
                 .Build();
     
             var settings = configuration.GetSection("Instances").Get<List<InstanceSettings>>();
