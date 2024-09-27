@@ -6,28 +6,68 @@ using Microsoft.Extensions.Configuration;
 
 
 // TEST //
-// IReplacer replacer = new PseudoReplacer();
-// IFormatIO formatIO = new XmlFormatIO();
-// string templateContent = File.ReadAllText("../Examples/template.xml");
+IReplacer replacer = new PseudoReplacer();
+IFormatIO formatIO = new XmlFormatIO();
+FileStream templateContent = File.OpenRead("../Examples/template.xml");
+FileStream resultContent = File.Create("../Examples/result.xml");
+XmlFormatIO XmlFormatIO = new XmlFormatIO();
 
-// string result = formatIO.Format(templateContent, replacer);
-// //Console.WriteLine(result);
-
-// XmlFormatIO XmlFormatIO = new XmlFormatIO();
+//formatIO.Format(templateContent, resultContent, replacer);
+//Console.WriteLine(result);
 
 //XmlFormatIO.Read(templateContent);
 
 
 //XmlFormatIO.ReadXml(templateContent, @"C:\Users\marek\Desktop\New Text Document.txt");
 
-// ReplacerMain replacerMain = new ReplacerMain();
+// XmlFormatIO.Format(templateContent, resultContent, replacer);
 
-// string result1 = replacerMain.ReplaceValue("Random.ReplaceIntValue");
-// string result2 = replacerMain.ReplaceValue("Random.ReplaceStringValue");
+ReplacerMain replacerMain = new ReplacerMain();
+string[] placeholders = new string[]
+{
+    // "{{ Random.IntRange(1, 100) }}",                     // Validní: Celé číslo v rozsahu
+    // "{{ Random.DecimalRange(5.5, 99.99) }}",              // Validní: Desetinné číslo v rozsahu
+    // "{{ Random.String(20) }}",                            // Validní: Generuje řetězec délky 20
+    // "{{ Random.Bool() }}",                                // Validní: Generuje bool
+    // "{{ Math.Add(3, 7) }}",                               // Validní: Sčítání
+    // "{{ Random.Char() }}",                                // Neimplementované: Generování znaku
+    // "{{ Random.Bool(1, 0) }}",                            // Neplatné: Bool nebere parametry
+    // "{{ Math.Subtract(10, 4) }}",                        // Validní: Odečítání
+    // "{{ Random.IntRange() }}",                            // Neplatné: Bez parametrů
+    // "{{ Random.NotImplementedMethod() }}",                // Neimplementované: Simulace chyby
+    // "{{ Math.Divide(10, 2) }}",                           // Validní: Dělení
+    // "{{ Random.String() }}",                               // Neplatné: Bez parametru
+    // "{{ Random.IntRange(50, 150) }}",                      // Validní: Celé číslo v jiném rozsahu
+    // "{{ Random.DecimalRange(-10.5, 10.5) }}",               // Validní: Desetinné číslo v záporném a kladném rozsahu
+    // "{{ Random.String(15) }}",                              // Validní: Generuje řetězec délky 15
+    // "{{ Random.Bool() }}",                                  // Validní: Generuje další bool
+    // "{{ Math.Multiply(4, 5) }}",                            // Validní: Násobení
+    // "{{ Math.DivideInt(20, 4) }}",                          // Validní: Dělení s celým výsledkem
+    // "{{ Math.Divide(7, 2) }}",                              // Validní: Dělení s desetiným výsledkem
+    // "{{ Random.IntRange(-5, 5) }}",                        // Validní: Celé číslo v záporném rozsahu
+    // "{{ Random.String(-10) }}",                             // Neplatné: Záporná délka řetězce
+    // "{{ Random.IntRange(100, 50) }}",                       // Neplatné: Min hodnota je větší než max hodnota
+    // "{{ Math.Subtract(5) }}",                               // Neplatné: Chybějící druhý parametr
+    // "{{ Math.NotImplementedMethod() }}",                    // Neimplementované: Simulace chyby
+    // "{{ Random.DecimalRange(0, 0) }}",                      // Validní: Desetinné číslo s nulovým rozsahem
+    // "{{ Math.Sqrt(-1) }}",                                 // Neplatné: Pokus o odmocninu záporného čísla
+    "{{ String.Repeat(\"word\", 5) }}",                                  // Validní: Odmocnina kladného čísla
+};
 
-// Console.WriteLine(result1);
-// Console.WriteLine(result2);
+int x = 0;
 
+foreach (string placeholder in placeholders)
+{
+    // Pokusíme se nahradit placeholder a uložit výsledek do proměnné result
+    string result = replacerMain.ReplaceValue(placeholder.Trim('{', '{', '}', '}', ' '));
 
-InstanceSettings.LoadInstances();
-InstanceSettings.Instances?.ForEach(x => Console.WriteLine(x.InputDir));
+    // Zkontrolujeme, zda je výsledek prázdný
+    if (string.IsNullOrEmpty(result))
+    {
+        Console.WriteLine($"Failed to replace placeholder: {placeholder}");
+    }
+    else
+    {
+        System.Console.WriteLine(++x + ". " + result);
+    }
+}

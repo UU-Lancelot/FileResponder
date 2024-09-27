@@ -4,28 +4,36 @@ namespace UU.Lancelot.FileResponder.Replacers;
 
 class ReplacerMain : IReplacer
 {
-    public static ReplacerRandom replacerRandom = new ReplacerRandom();
-    public static ReplacerMath replacerMath = new ReplacerMath();
-    public static ReplacerString replacerString = new ReplacerString();
+    static ReplacerRandom replacerRandom = new ReplacerRandom();
+    static ReplacerMath replacerMath = new ReplacerMath();
+    static ReplacerString replacerString = new ReplacerString();
+    static ReplacerDatetime replacerDatetime = new ReplacerDatetime();
 
-    public string ReplaceValue(string placeholder)
+    public string ReplaceValue(string? placeholder)
     {
-        string[] parts = placeholder.Split('.');
-
-        string replacerClass = parts[0];
-        string replacerMethod = parts[1];
-
-        switch (replacerClass)
+        if (String.IsNullOrEmpty(placeholder))
         {
-            case "Random":
-                return replacerRandom.ChooseMethod(replacerMethod);
-            case "Math":
-                return replacerMath.ChooseMethod(replacerMethod);
-            case "String":
-                return replacerString.ChooseMethod(replacerMethod);
-            default:
-                Console.WriteLine($"Replacer Class {replacerClass} is not implemented.");
-                return "";
+            Console.WriteLine("Placeholder is empty");
+            return "";
+        }
+        else
+        {
+            string replacerClass = placeholder.Split('.')[0];
+            string methodAndParameters = placeholder.Substring(replacerClass.Length + 1);
+            switch (replacerClass)
+            {
+                case "Random":
+                    return replacerRandom.ReplaceValue(methodAndParameters);
+                case "Math":
+                    return replacerMath.ReplaceValue(methodAndParameters);
+                case "String":
+                    return replacerString.ReplaceValue(methodAndParameters);
+                case "Datetime":
+                    return replacerDatetime.ReplaceValue(methodAndParameters);
+                default:
+                    Console.WriteLine($"Replacer Class {replacerClass} is not implemented.");
+                    return "";
+            }
         }
     }
 

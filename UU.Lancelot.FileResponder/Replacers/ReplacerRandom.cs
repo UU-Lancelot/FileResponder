@@ -1,3 +1,4 @@
+
 using UU.Lancelot.FileResponder.Interfaces;
 
 namespace UU.Lancelot.FileResponder.Replacers
@@ -7,49 +8,70 @@ namespace UU.Lancelot.FileResponder.Replacers
         static Random random = new Random();
         public string ReplaceValue(string placeholder)
         {
-            return placeholder;
+            string[] parts = placeholder.Split(new char[] { '(', ',', ')' }, StringSplitOptions.RemoveEmptyEntries);
+            string method = parts[0].Trim();
+            double? num1 = parts.Length >= 2 ? double.Parse(parts[1].Trim()) : null;
+            double? num2 = parts.Length >= 3 ? double.Parse(parts[2].Trim()) : null;
+
+
+            switch (method)
+            {
+                case "IntRange":
+                    return IntRange(num1, num2);
+                case "DecimalRange":
+                    return DecimalRange(num1, num2);
+                case "String":
+                    return StringValue(num1);
+                case "Bool":
+                    return BoolValue(num1);
+                default:
+                    Console.WriteLine($"Random Replacer Class {method} is not implemented.");
+                    return "";
+            }
         }
         public IEnumerable<object> ReplaceBlock(string placeholder)
         {
             yield return placeholder;
         }
 
-        public string ChooseMethod(string method)
+        string IntRange(double? min, double? max)
         {
-            switch (method)
-            {
-                case "ReplaceIntValue":
-                    return IntValue().ToString();
-                case "ReplaceStringValue":
-                    return StringValue(10);
-                case "ReplaceBoolValue":
-                    return BoolValue().ToString();
-                default:
-                    Console.WriteLine($"Random Replacer Class {method} is not implemented.");
-                    return "";
-            }
-        }
-        int IntValue()
-        {
-            return random.Next(100, 999);
+            // Použití výchozích hodnot, pokud jsou parametry null
+            double actualMin = min ?? 100;
+            double actualMax = max ?? 999;
+
+            // +1 to include max value
+            return random.NextInt64(Convert.ToInt64(actualMin), Convert.ToInt64(actualMax + 1)).ToString();
         }
 
-        string StringValue(int length)
+        string DecimalRange(double? min, double? max)
         {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            double actualMin = min ?? 100;
+            double actualMax = max ?? 999;
+            //return random decimal between 0 - 1
+            var result = random.NextDouble();
+            //nextint returns min <= x < max
+            result += random.NextInt64(Convert.ToInt64(actualMin), Convert.ToInt64(actualMax));
+            return result.ToString();
+        }
+        string StringValue(double? length)
+        {
+            double actualLength = length ?? 10;
+            const string CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             string randomString = "";
-            for (int i = 0; i < length; i++)
+            for (double i = 0; i < actualLength; i++)
             {
-                randomString += chars[random.Next(chars.Length)];
+                randomString += CHARS[random.Next(CHARS.Length)];
             }
 
             return randomString;
         }
 
-        bool BoolValue()
+        string BoolValue(double? chanceForTrue)
         {
+            double actualChance = chanceForTrue ?? 50;
             int randomInt = random.Next(1, 100);
-            return randomInt <= 60;
+            return (randomInt <= actualChance).ToString();
         }
 
 
