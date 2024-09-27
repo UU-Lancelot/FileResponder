@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UU.Lancelot.FileResponder", "UU.Lancelot.FileResponder\UU.Lancelot.FileResponder.csproj", "{DD62A6A7-4474-453F-BD56-1CB8999C2898}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DD62A6A7-4474-453F-BD56-1CB8999C2898}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD62A6A7-4474-453F-BD56-1CB8999C2898}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD62A6A7-4474-453F-BD56-1CB8999C2898}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD62A6A7-4474-453F-BD56-1CB8999C2898}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A61B7784-F0F4-4ECF-AD78-26370F08BCD8}
+	EndGlobalSection
+EndGlobal
