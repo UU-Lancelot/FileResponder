@@ -2,19 +2,20 @@ using UU.Lancelot.FileResponder.Interfaces;
 
 namespace UU.Lancelot.FileResponder.Replacers
 {
-    public class ReplacerMath : IReplacer
+    public class ReplacerMath : PseudoReplacer
     {
-        public IEnumerable<object> ReplaceBlock(string placeholder)
+        public new IEnumerable<object> ReplaceBlock(string placeholder)
         {
             throw new NotImplementedException();
         }
 
-        public string ReplaceValue(string placeholder)
+        public new string ReplaceValue(string placeholder)
         {
-            string[] parts = placeholder.Split(new char[] { '(', ',', ')' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] parts = SplitToMethodAndParameters(placeholder);
             string method = parts[0].Trim();
-            double num1 = double.Parse(parts[1].Trim());
-            double num2 = double.Parse(parts[2].Trim());
+            string[] parameters = SplitParameter(parts[1].Trim());
+            double num1 = double.Parse(parameters[0].Trim());
+            double num2 = double.Parse(parameters[1].Trim());
 
             switch (method)
             {

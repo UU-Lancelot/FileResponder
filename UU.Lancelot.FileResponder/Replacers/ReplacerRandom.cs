@@ -3,17 +3,17 @@ using UU.Lancelot.FileResponder.Interfaces;
 
 namespace UU.Lancelot.FileResponder.Replacers
 {
-    public class ReplacerRandom : IReplacer
+    public class ReplacerRandom : PseudoReplacer
     {
         static Random random = new Random();
         public Exception exception { get; set; } = new Exception();
-        public string ReplaceValue(string placeholder)
+        public new string ReplaceValue(string placeholder)
         {
-            string[] parts = placeholder.Split(new char[] { '(', ',', ')' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] parts = placeholder.Split('.', StringSplitOptions.RemoveEmptyEntries);
             string method = parts[0].Trim();
-            double? num1 = parts.Length >= 2 ? double.Parse(parts[1].Trim()) : null;
-            double? num2 = parts.Length >= 3 ? double.Parse(parts[2].Trim()) : null;
-
+            string[] parameters = SplitParameter(parts[1].Trim());
+            double? num1 = parameters.Length >= 1 ? double.Parse(parameters[0].Trim()) : null;
+            double? num2 = parameters.Length >= 2 ? double.Parse(parameters[1].Trim()) : null;
 
             switch (method)
             {
