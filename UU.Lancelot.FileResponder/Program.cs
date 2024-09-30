@@ -1,5 +1,5 @@
 using  UU.Lancelot.FileResponder.PlaceholderEvaluator;
 
-string placeholder = $"""String.Repeat("hel" + "lo", 1)""";
+string placeholder = $"""Input.XPath("CDSREQ/SenderIdentification[id]")""";
 
 Console.WriteLine(PlaceholderEvaluator.Evaluate(placeholder));

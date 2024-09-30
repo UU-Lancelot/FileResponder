@@ -8,6 +8,7 @@ class ReplacerMain : IReplacer
     static ReplacerMath replacerMath = new ReplacerMath();
     static ReplacerString replacerString = new ReplacerString();
     static ReplacerDatetime replacerDatetime = new ReplacerDatetime();
+    static ReplacerInput replacerInput = new ReplacerInput();
 
     public string ReplaceValue(string? placeholder)
     {
@@ -32,6 +33,8 @@ class ReplacerMain : IReplacer
                         return replacerString.ReplaceValue(methodAndParameters);
                     case "Datetime":
                         return replacerDatetime.ReplaceValue(methodAndParameters);
+                    case "Input":
+                        return replacerInput.ReplaceValue(methodAndParameters);
                     default:
                         Console.WriteLine($"Replacer Class {replacerClass} is not implemented.");
                         return "";

@@ -7,7 +7,7 @@
   dtd-release="1"
   message-code="813"
   id="{{ Random.IntRange(10000000000000, 99999999999999) }}"
-  date-time="{{ Datetime.Now }}"
+  date-time="{{ Datetime.Now() }}"
   xmlns="http://www.ote-cr.cz/schema/market/data">
     <SenderIdentification
       coding-scheme="{{ Input.*.ReceiverIdentification.coding-scheme }}"
