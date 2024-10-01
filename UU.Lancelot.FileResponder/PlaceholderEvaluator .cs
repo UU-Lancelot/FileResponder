@@ -154,22 +154,22 @@ public static class PlaceholderEvaluator
 
     private static string RemoveSecondDotAndAddBrackets(string placeholder)
     {
-        int index = GetNthIndex(placeholder, '.', 2);
+        int index = GetNthOccurrenceIndex(placeholder, '.', 2);
         placeholder = placeholder.Remove(index, 1);
         placeholder = placeholder.Insert(index, "(");
         placeholder = placeholder.Insert(placeholder.Length, ")");
         return placeholder;
     }
 
-    private static int GetNthIndex(string s, char t, int n)
+    private static int GetNthOccurrenceIndex(string input, char character, int occurrence)
     {
         int count = 0;
-        for (int i = 0; i < s.Length; i++)
+        for (int i = 0; i < input.Length; i++)
         {
-            if (s[i] == t)
+            if (input[i] == character)
             {
                 count++;
-                if (count == n)
+                if (count == occurrence)
                 {
                     return i;
                 }
@@ -177,6 +177,7 @@ public static class PlaceholderEvaluator
         }
         return -1;
     }
+
 
     private static void ResolveSimplePlaceholder(string[] partsOfPlaceholder)
     {
