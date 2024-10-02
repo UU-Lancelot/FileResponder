@@ -1,17 +1,11 @@
 using UU.Lancelot.FileResponder.Interfaces;
 
 namespace UU.Lancelot.FileResponder.Replacers;
-public class PseudoReplacer : IReplacer
+public abstract class ReplacerBase : IReplacer
 {
-    public new string ReplaceValue(string placeholder)
-    {
-        return placeholder;
-    }
+    public abstract string ReplaceValue(string placeholder);
 
-    public new IEnumerable<object> ReplaceBlock(string placeholder)
-    {
-        yield return placeholder;
-    }
+    public abstract IEnumerable<object> ReplaceBlock(string placeholder);
 
     protected string[] SplitToMethodAndParameters(string placeholder)
     {

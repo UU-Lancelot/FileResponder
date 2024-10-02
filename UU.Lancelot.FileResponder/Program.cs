@@ -1,5 +1,9 @@
 using  UU.Lancelot.FileResponder.PlaceholderEvaluator;
 
-string placeholder = $"""String.Repeat("hel" + "lo", 1)""";
+string placeholder = "Math.Add(Random.IntRange(1, 10), Random.IntRange(1, 10))";
+// Výsledek: ?
 
-Console.WriteLine(PlaceholderEvaluator.Evaluate(placeholder));
+
+PlaceholderEvaluator placeholderEvaluator = new PlaceholderEvaluator();
+
+Console.WriteLine(placeholderEvaluator.Evaluate(placeholder));

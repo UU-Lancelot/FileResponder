@@ -3,11 +3,11 @@ using UU.Lancelot.FileResponder.Interfaces;
 
 namespace UU.Lancelot.FileResponder.Replacers
 {
-    public class ReplacerRandom : PseudoReplacer
+    public class ReplacerRandom : ReplacerBase
     {
         static Random random = new Random();
         public Exception exception { get; set; } = new Exception();
-        public new string ReplaceValue(string placeholder)
+        public override string ReplaceValue(string placeholder)
         {
             string[] parts = placeholder.Split('.', StringSplitOptions.RemoveEmptyEntries);
             string method = parts[0].Trim();
@@ -30,7 +30,7 @@ namespace UU.Lancelot.FileResponder.Replacers
                     return "";
             }
         }
-        public IEnumerable<object> ReplaceBlock(string placeholder)
+        public override IEnumerable<object> ReplaceBlock(string placeholder)
         {
             yield return placeholder;
         }

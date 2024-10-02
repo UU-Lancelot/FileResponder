@@ -3,24 +3,31 @@ using System.Collections.Generic;
 using UU.Lancelot.FileResponder.Replacers;
 
 namespace UU.Lancelot.FileResponder.PlaceholderEvaluator;
-public static class PlaceholderEvaluator
+public class PlaceholderEvaluator
 {
-    static string pomocnyPlaceholder = "";
-    static int aktualniPocetVnoreni = 0;
-    static int PotrebnyPocetVnoreni;
+    string? pomocnyPlaceholder;
+    int aktualniPocetVnoreni;
+    int PotrebnyPocetVnoreni;
 
     static ReplacerMain replacerMain = new ReplacerMain();
 
-    public static string Evaluate(string placeholder)
+    public string? Evaluate(string placeholder)
     {
-        pomocnyPlaceholder = placeholder;
-        aktualniPocetVnoreni = 0;
-        PotrebnyPocetVnoreni = CalculateNestingLevel(placeholder);
+        if (string.IsNullOrEmpty(placeholder))
+        {
+            return "";
+        }
+        else
+        {
+            pomocnyPlaceholder = placeholder;
+            aktualniPocetVnoreni = 0;
+            PotrebnyPocetVnoreni = CalculateNestingLevel(placeholder);
 
-        return ProcessPlaceholder(placeholder);
+            return ProcessPlaceholder(placeholder);
+        }
     }
 
-    private static string ProcessPlaceholder(string placeholder)
+    private string? ProcessPlaceholder(string placeholder)
     {
         placeholder = AddDotToFirstBracket(placeholder);
         string[] parts = SplitIntoComponents(placeholder);
@@ -43,7 +50,7 @@ public static class PlaceholderEvaluator
         }
 
         aktualniPocetVnoreni++;
-        if (aktualniPocetVnoreni < PotrebnyPocetVnoreni)
+        if (aktualniPocetVnoreni < PotrebnyPocetVnoreni && pomocnyPlaceholder != null)
         {
             ProcessPlaceholder(pomocnyPlaceholder);
         }
@@ -178,9 +185,9 @@ public static class PlaceholderEvaluator
         return -1;
     }
 
-    private static void ResolveSimplePlaceholder(string[] partsOfPlaceholder)
+    private void ResolveSimplePlaceholder(string[] partsOfPlaceholder)
     {
         string result = replacerMain.ReplaceValue(string.Join('.', partsOfPlaceholder));
-        pomocnyPlaceholder = pomocnyPlaceholder.Replace(RemoveSecondDotAndAddBrackets(string.Join('.', partsOfPlaceholder)), result);
+        pomocnyPlaceholder = pomocnyPlaceholder?.Replace(RemoveSecondDotAndAddBrackets(string.Join('.', partsOfPlaceholder)), result);
     }
 }

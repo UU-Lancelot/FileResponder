@@ -3,14 +3,14 @@ using UU.Lancelot.FileResponder.Interfaces;
 
 namespace UU.Lancelot.FileResponder.Replacers
 {
-    public class ReplacerString : PseudoReplacer
+    public class ReplacerString : ReplacerBase
     {
-        public new IEnumerable<object> ReplaceBlock(string placeholder)
+        public override IEnumerable<object> ReplaceBlock(string placeholder)
         {
             throw new NotImplementedException();
         }
 
-        public new string ReplaceValue(string placeholder)
+        public override string ReplaceValue(string placeholder)
         {
             string[] parts = SplitToMethodAndParameters(placeholder);
             string method = parts[0];
