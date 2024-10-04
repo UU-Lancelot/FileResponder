@@ -1,6 +1,6 @@
 using UU.Lancelot.FileResponder.PlaceholderEvaluator;
 
-string placeholder = "String.Repeat(Random.Bool(), Math.Add(1, 10))";
+string placeholder = $"""String.Repeat("ahoj", Math.Add(1, 10))""";
 // Výsledek: ?
 
 

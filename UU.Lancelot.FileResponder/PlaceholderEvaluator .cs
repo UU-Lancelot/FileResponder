@@ -39,8 +39,6 @@ public class PlaceholderEvaluator
 
         parts[2] = string.Join(", ", parameterArray);
 
-
-        //udelat promenou vysledek a tu vracet misto tyhle picoviny
         return ResolveSimplePlaceholder(parts);
     }
 
@@ -73,18 +71,14 @@ public class PlaceholderEvaluator
 
     private static bool IsSimpleParameter(string parameter)
     {
-        int depthQuotation = 0;
+        bool isInQuotes = true;
         for (int i = 0; i < parameter.Length; i++)
         {
-            if (parameter[i] == '"' && depthQuotation == 0)
+            if (parameter[i] == '"')
             {
-                depthQuotation++;
+                isInQuotes = !isInQuotes;
             }
-            else if (parameter[i] == '"' && depthQuotation == 1)
-            {
-                depthQuotation--;
-            }
-            else if (parameter[i] == '(' && depthQuotation == 0)
+            else if (parameter[i] == '(' && isInQuotes)
             {
                 return false;
             }
@@ -97,7 +91,7 @@ public class PlaceholderEvaluator
         List<string> result = new List<string>();
         int start = 0;
         int depthBracket = 0;
-        int depthQuotation = 0;
+        bool isInQuotes = true;
 
         for (int i = 0; i < input.Length; i++)
         {
@@ -109,15 +103,11 @@ public class PlaceholderEvaluator
             {
                 depthBracket--;
             }
-            else if (input[i] == '"' && depthQuotation == 0)
+            else if (input[i] == '"')
             {
-                depthQuotation++;
+                isInQuotes = !isInQuotes;
             }
-            else if (input[i] == '"' && depthQuotation == 1)
-            {
-                depthQuotation--;
-            }
-            else if (input[i] == ',' && depthBracket == 0 && depthQuotation == 0)
+            else if (input[i] == ',' && depthBracket == 0 && isInQuotes)
             {
                 result.Add(input.Substring(start, i - start).Trim());
                 start = i + 1;
