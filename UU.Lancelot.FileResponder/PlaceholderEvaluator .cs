@@ -127,15 +127,15 @@ public class PlaceholderEvaluator
         return placeholder;
     }
 
-    private static int GetNthIndex(string s, char t, int n)
+    private static int GetNthIndex(string inputString, char targetChar, int occurrence)
     {
         int count = 0;
-        for (int i = 0; i < s.Length; i++)
+        for (int i = 0; i < inputString.Length; i++)
         {
-            if (s[i] == t)
+            if (inputString[i] == targetChar)
             {
                 count++;
-                if (count == n)
+                if (count == occurrence)
                 {
                     return i;
                 }
@@ -144,16 +144,17 @@ public class PlaceholderEvaluator
         return -1;
     }
 
+
     private string ResolveSimplePlaceholder(string[] partsOfPlaceholder)
     {
         if (string.IsNullOrEmpty(tempPlaceholder))
         {
             return "";
         }
-        
+
         List<string> placeholderSplitted = partsOfPlaceholder.SkipLast(1).ToList();
         placeholderSplitted.AddRange(SplitParametr(partsOfPlaceholder[2]));
-        
+
 
         string result = replacerMain.ReplaceValue(placeholderSplitted.ToArray());
         string correctVersionOfPlaceholder = RemoveSecondDotAndAddBrackets(string.Join('.', partsOfPlaceholder));
