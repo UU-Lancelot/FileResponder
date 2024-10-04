@@ -151,12 +151,11 @@ public class PlaceholderEvaluator
         {
             return "";
         }
-
-        List<string> placeholderSplitted = partsOfPlaceholder.SkipLast(1).ToList();
-        placeholderSplitted.AddRange(SplitParametr(partsOfPlaceholder[2]));
-
-
-        string result = replacerMain.ReplaceValue(placeholderSplitted.ToArray());
+        string className = partsOfPlaceholder[0];
+        string methodName = partsOfPlaceholder[1];
+        string[] parameters = partsOfPlaceholder[2].Split(", ");
+        
+        string result = replacerMain.ReplaceValue(className, methodName, parameters);
         string correctVersionOfPlaceholder = RemoveSecondDotAndAddBrackets(string.Join('.', partsOfPlaceholder));
 
         int startIndex = tempPlaceholder.IndexOf(correctVersionOfPlaceholder);

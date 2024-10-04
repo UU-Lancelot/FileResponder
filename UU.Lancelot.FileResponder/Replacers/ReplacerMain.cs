@@ -9,32 +9,22 @@ class ReplacerMain : IReplacer
     static ReplacerString replacerString = new ReplacerString();
     static ReplacerDatetime replacerDatetime = new ReplacerDatetime();
 
-    public string ReplaceValue(string[] placeholder)
+    public string ReplaceValue(string className, string methodName, string[] parameters)
     {
         try
         {
-            if (placeholder.Length < 3)
-            {
-                Console.WriteLine("Placeholder is empty");
-                return "";
-            }
-            
-            string replacerClass = placeholder[0];
-            string[] methodAndParameters = placeholder.Skip(1).ToArray();
-            methodAndParameters = methodAndParameters.Where(x => !string.IsNullOrEmpty(x)).ToArray();
-
-            switch (replacerClass)
+            switch (className)
             {
                 case "Random":
-                    return replacerRandom.ReplaceValue(methodAndParameters);
+                    return replacerRandom.ReplaceValue(className, methodName, parameters);
                 case "Math":
-                    return replacerMath.ReplaceValue(methodAndParameters);
+                    return replacerMath.ReplaceValue(className, methodName, parameters);
                 case "String":
-                    return replacerString.ReplaceValue(methodAndParameters);
-                case "Datetime":
-                    return replacerDatetime.ReplaceValue(methodAndParameters);
+                    return replacerString.ReplaceValue(className, methodName, parameters);
+                case "DateTime":
+                    return replacerDatetime.ReplaceValue(className, methodName, parameters);
                 default:
-                    Console.WriteLine($"Replacer Class {replacerClass} is not implemented.");
+                    Console.WriteLine($"ReplacerMain Class {className} is not implemented.");
                     return "";
             }
         }

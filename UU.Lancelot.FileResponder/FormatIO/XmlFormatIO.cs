@@ -58,6 +58,9 @@ public class XmlFormatIO : IFormatIO
     {
         value.Trim('{', ' ', '}');
         string[] parts = value.Split('.', 3, StringSplitOptions.RemoveEmptyEntries);
-        return replacerMain.ReplaceValue(parts);
+        string className = parts[0];
+        string methodName = parts[1];
+        string[] parameters = parts[2].Trim('(', ')').Split(',', StringSplitOptions.RemoveEmptyEntries);
+        return replacerMain.ReplaceValue(className, methodName, parameters);
     }
 }

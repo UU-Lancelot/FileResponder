@@ -10,24 +10,20 @@ namespace UU.Lancelot.FileResponder.Replacers
             throw new NotImplementedException();
         }
 
-        public override string ReplaceValue(string[] placeholder)
+        public override string ReplaceValue(string className, string methodName, string[] parameters)
         {
-            string method = placeholder[0];
-            string[] words = placeholder.Skip(1).ToArray();
-
-
-            switch (method)
+            switch (methodName)
             {
                 case "Concat":
-                    return Concat(words);
+                    return Concat(parameters);
                 case "Repeat":
-                    if (words.Length == 1)
+                    if (parameters.Length == 1)
                     {
-                        return Repeat(words[0], null);
+                        return Repeat(parameters[0], null);
                     }
-                    return Repeat(words[0], words[1]);
+                    return Repeat(parameters[0], parameters[1]);
                 default:
-                    Console.WriteLine($"String Replacer Class {method} is not implemented.");
+                    Console.WriteLine($"String Replacer Class {methodName} is not implemented.");
                     return "";
             }
         }

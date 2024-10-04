@@ -9,16 +9,14 @@ public class ReplacerDatetime : ReplacerBase
         throw new NotImplementedException();
     }
 
-    public override string ReplaceValue(string[] placeholder)
+    public override string ReplaceValue(string className, string methodName, string[] parameters)
     {
-        string method = placeholder[0];
-
-        switch (method)
+        switch (methodName)
         {
             case "Now":
                 return DateTime.Now.ToString();
             default:
-                Console.WriteLine($"DateTime Replacer Class {method} is not implemented.");
+                Console.WriteLine($"DateTime Replacer Class {methodName} is not implemented.");
                 return "";
         }
     }

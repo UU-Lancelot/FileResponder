@@ -3,13 +3,12 @@ namespace UU.Lancelot.FileResponder.Replacers
     public class ReplacerRandom : ReplacerBase
     {
         static Random random = new Random();
-        public override string ReplaceValue(string[] placeholder)
+        public override string ReplaceValue(string className, string methodName, string[] parameters)
         {
-            string method = placeholder[0].Trim();
-            double? num1 = placeholder.Length > 1 ? double.Parse(placeholder[1].Trim()) : null;
-            double? num2 = placeholder.Length > 2 ? double.Parse(placeholder[2].Trim()) : null;
+            double? num1 = parameters.Length > 1 ? double.Parse(parameters[1].Trim()) : null;
+            double? num2 = parameters.Length > 2 ? double.Parse(parameters[2].Trim()) : null;
 
-            switch (method)
+            switch (methodName)
             {
                 case "IntRange":
                     return IntRange(num1, num2);
@@ -20,7 +19,7 @@ namespace UU.Lancelot.FileResponder.Replacers
                 case "Bool":
                     return BoolValue(num1);
                 default:
-                    Console.WriteLine($"Random Replacer Class {method} is not implemented.");
+                    Console.WriteLine($"Random Replacer Class {methodName} is not implemented.");
                     return "";
             }
         }
