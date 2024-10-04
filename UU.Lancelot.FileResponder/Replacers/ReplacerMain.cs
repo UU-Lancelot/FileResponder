@@ -9,19 +9,21 @@ class ReplacerMain : IReplacer
     static ReplacerString replacerString = new ReplacerString();
     static ReplacerDatetime replacerDatetime = new ReplacerDatetime();
 
-    public string ReplaceValue(string? placeholder)
+    public string ReplaceValue(string[] placeholder)
     {
         try
         {
-            if (String.IsNullOrEmpty(placeholder))
+            if (placeholder.Length < 3)
             {
                 Console.WriteLine("Placeholder is empty");
                 return "";
             }
             else
             {
-                string replacerClass = placeholder.Split('.')[0];
-                string methodAndParameters = placeholder.Substring(replacerClass.Length + 1);
+                string replacerClass = placeholder[0];
+                string[] methodAndParameters = placeholder.Skip(1).ToArray();
+                methodAndParameters = methodAndParameters.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                
                 switch (replacerClass)
                 {
                     case "Random":

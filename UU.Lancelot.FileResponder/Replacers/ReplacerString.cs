@@ -10,11 +10,10 @@ namespace UU.Lancelot.FileResponder.Replacers
             throw new NotImplementedException();
         }
 
-        public override string ReplaceValue(string placeholder)
+        public override string ReplaceValue(string[] placeholder)
         {
-            string[] parts = SplitToMethodAndParameters(placeholder);
-            string method = parts[0];
-            string[] words = SplitParameter(parts[1].Trim());
+            string method = placeholder[0];
+            string[] words = placeholder.Skip(1).ToArray();
 
 
             switch (method)

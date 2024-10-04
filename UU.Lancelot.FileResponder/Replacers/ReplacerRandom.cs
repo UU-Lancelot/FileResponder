@@ -1,19 +1,13 @@
-
-using UU.Lancelot.FileResponder.Interfaces;
-
 namespace UU.Lancelot.FileResponder.Replacers
 {
     public class ReplacerRandom : ReplacerBase
     {
         static Random random = new Random();
-        public Exception exception { get; set; } = new Exception();
-        public override string ReplaceValue(string placeholder)
+        public override string ReplaceValue(string[] placeholder)
         {
-            string[] parts = placeholder.Split('.', StringSplitOptions.RemoveEmptyEntries);
-            string method = parts[0].Trim();
-            string[] parameters = SplitParameter(parts[1].Trim());
-            double? num1 = parameters.Length >= 1 ? double.Parse(parameters[0].Trim()) : null;
-            double? num2 = parameters.Length >= 2 ? double.Parse(parameters[1].Trim()) : null;
+            string method = placeholder[0].Trim();
+            double? num1 = placeholder.Length > 1 ? double.Parse(placeholder[1].Trim()) : null;
+            double? num2 = placeholder.Length > 2 ? double.Parse(placeholder[2].Trim()) : null;
 
             switch (method)
             {

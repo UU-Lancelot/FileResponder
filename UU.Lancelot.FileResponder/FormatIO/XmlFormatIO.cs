@@ -56,6 +56,8 @@ public class XmlFormatIO : IFormatIO
 
     public string TrimAndReplaceValue(string value)
     {
-        return replacerMain.ReplaceValue(value.Trim('{', ' ', '}'));
+        value.Trim('{', ' ', '}');
+        string[] parts = value.Split('.', 3, StringSplitOptions.RemoveEmptyEntries);
+        return replacerMain.ReplaceValue(parts);
     }
 }

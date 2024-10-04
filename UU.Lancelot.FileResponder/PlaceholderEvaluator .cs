@@ -5,13 +5,10 @@ using UU.Lancelot.FileResponder.Replacers;
 namespace UU.Lancelot.FileResponder.PlaceholderEvaluator;
 public class PlaceholderEvaluator
 {
-    string? pomocnyPlaceholder;
-    int aktualniPocetVnoreni;
-    int PotrebnyPocetVnoreni;
-
+    string tempPlaceholder = "";
     static ReplacerMain replacerMain = new ReplacerMain();
 
-    public string? Evaluate(string placeholder)
+    public string Evaluate(string placeholder)
     {
         if (string.IsNullOrEmpty(placeholder))
         {
@@ -19,66 +16,32 @@ public class PlaceholderEvaluator
         }
         else
         {
-            pomocnyPlaceholder = placeholder;
-            aktualniPocetVnoreni = 0;
-            PotrebnyPocetVnoreni = CalculateNestingLevel(placeholder);
-
+            tempPlaceholder = placeholder;
             return ProcessPlaceholder(placeholder);
         }
     }
 
-    private string? ProcessPlaceholder(string placeholder)
+    private string ProcessPlaceholder(string placeholder)
     {
         placeholder = AddDotToFirstBracket(placeholder);
         string[] parts = SplitIntoComponents(placeholder);
         parts[2] = RemoveOuterBrackets(parts[2]);
 
-        if (IsSimpleParameter(parts[2]))
+        string[] parameterArray = SplitParametr(parts[2]);
+
+        for (int i = 0; i < parameterArray.Length; i++)
         {
-            ResolveSimplePlaceholder(parts);
-        }
-        else
-        {
-            string[] parameterArray = SplitByCommasOutsideBrackets(parts[2]);
-            foreach (string parameter in parameterArray)
+            if (!IsSimpleParameter(parameterArray[i]))
             {
-                if (!IsSimpleParameter(parameter))
-                {
-                    ProcessPlaceholder(parameter);
-                }
+                parameterArray[i] = ProcessPlaceholder(parameterArray[i]);
             }
         }
 
-        aktualniPocetVnoreni++;
-        if (aktualniPocetVnoreni < PotrebnyPocetVnoreni && pomocnyPlaceholder != null)
-        {
-            ProcessPlaceholder(pomocnyPlaceholder);
-        }
+        parts[2] = string.Join(", ", parameterArray);
 
-        return pomocnyPlaceholder;
-    }
 
-    private static int CalculateNestingLevel(string placeholder)
-    {
-        int depthBracket = 0;
-        int depthQuotation = 0;
-
-        for (int i = 0; i < placeholder.Length; i++)
-        {
-            if (placeholder[i] == '"' && depthQuotation == 0)
-            {
-                depthQuotation++;
-            }
-            else if (placeholder[i] == '"' && depthQuotation == 1)
-            {
-                depthQuotation--;
-            }
-            else if (placeholder[i] == '(' && depthQuotation == 0)
-            {
-                depthBracket++;
-            }
-        }
-        return depthBracket;
+        //udelat promenou vysledek a tu vracet misto tyhle picoviny
+        return ResolveSimplePlaceholder(parts);
     }
 
     private static string AddDotToFirstBracket(string placeholder)
@@ -93,6 +56,12 @@ public class PlaceholderEvaluator
     {
         string[] parts = placeholder.Split(new char[] { '.' }, 3, StringSplitOptions.RemoveEmptyEntries);
         return parts;
+    }
+
+    private static string MergeIntoPlaceholder(string[] parts)
+    {
+        string result = $"{parts[0]}.{parts[1]}({parts[2]})";
+        return result;
     }
 
     private static string RemoveOuterBrackets(string placeholder)
@@ -123,7 +92,7 @@ public class PlaceholderEvaluator
         return true;
     }
 
-    private static string[] SplitByCommasOutsideBrackets(string input)
+    private static string[] SplitParametr(string input)
     {
         List<string> result = new List<string>();
         int start = 0;
@@ -185,9 +154,27 @@ public class PlaceholderEvaluator
         return -1;
     }
 
-    private void ResolveSimplePlaceholder(string[] partsOfPlaceholder)
+    private string ResolveSimplePlaceholder(string[] partsOfPlaceholder)
     {
-        string result = replacerMain.ReplaceValue(string.Join('.', partsOfPlaceholder));
-        pomocnyPlaceholder = pomocnyPlaceholder?.Replace(RemoveSecondDotAndAddBrackets(string.Join('.', partsOfPlaceholder)), result);
+        if (string.IsNullOrEmpty(tempPlaceholder))
+        {
+            return "";
+        }
+        
+        List<string> placeholderSplitted = partsOfPlaceholder.SkipLast(1).ToList();
+        placeholderSplitted.AddRange(SplitParametr(partsOfPlaceholder[2]));
+        
+
+        string result = replacerMain.ReplaceValue(placeholderSplitted.ToArray());
+        string correctVersionOfPlaceholder = RemoveSecondDotAndAddBrackets(string.Join('.', partsOfPlaceholder));
+
+        int startIndex = tempPlaceholder.IndexOf(correctVersionOfPlaceholder);
+        int lengthOfPlaceholder = correctVersionOfPlaceholder.Length;
+
+        tempPlaceholder = tempPlaceholder.Remove(startIndex, lengthOfPlaceholder);
+        tempPlaceholder = tempPlaceholder.Insert(startIndex, result);
+
+        return result;
+
     }
 }

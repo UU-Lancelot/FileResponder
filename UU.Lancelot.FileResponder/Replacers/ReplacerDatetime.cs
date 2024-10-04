@@ -9,14 +9,9 @@ public class ReplacerDatetime : ReplacerBase
         throw new NotImplementedException();
     }
 
-    public override string ReplaceValue(string placeholder)
+    public override string ReplaceValue(string[] placeholder)
     {
-        string[] parts = SplitToMethodAndParameters(placeholder);
-        string method = parts[0];
-        if (parts.Length > 1)
-        {
-            string[] parameters = SplitParameter(parts[1].Trim());
-        }
+        string method = placeholder[0];
 
         switch (method)
         {
