@@ -1,9 +1,14 @@
-using UU.Lancelot.FileResponder.PlaceholderEvaluator;
-
-string placeholder = $"""String.Repeat("ahoj", Math.Add(1, 10))""";
-// Výsledek: ?
+using UU.Lancelot.FileResponder.FormatIO;
+using UU.Lancelot.FileResponder.PlaceholderProcessing;
 
 
-PlaceholderEvaluator placeholderEvaluator = new PlaceholderEvaluator();
+XmlFormatIO xmlFormatIO = new XmlFormatIO();
 
-Console.WriteLine(placeholderEvaluator.Evaluate(placeholder));
+string filePath = @"C:\Users\Marek\source\git\FileResponder\Examples\template.xml";
+string resultPath = @"C:\Users\Marek\Desktop\test\ahoj.xml";
+
+using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
+using (FileStream resultStream = new FileStream(resultPath, FileMode.Create))
+{
+    xmlFormatIO.Format(fileStream, resultStream);
+}

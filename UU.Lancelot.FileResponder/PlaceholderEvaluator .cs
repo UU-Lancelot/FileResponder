@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UU.Lancelot.FileResponder.Replacers;
 
-namespace UU.Lancelot.FileResponder.PlaceholderEvaluator;
+namespace UU.Lancelot.FileResponder.PlaceholderProcessing;
 public class PlaceholderEvaluator
 {
     string tempPlaceholder = "";
@@ -16,6 +16,7 @@ public class PlaceholderEvaluator
         }
         else
         {
+            placeholder = placeholder.Trim('{', ' ', '}');
             tempPlaceholder = placeholder;
             return ProcessPlaceholder(placeholder);
         }
@@ -115,6 +116,7 @@ public class PlaceholderEvaluator
         }
 
         result.Add(input.Substring(start).Trim());
+        result.RemoveAll(x => string.IsNullOrEmpty(x));
         return result.ToArray();
     }
 

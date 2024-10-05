@@ -5,8 +5,8 @@ namespace UU.Lancelot.FileResponder.Replacers
         static Random random = new Random();
         public override string ReplaceValue(string className, string methodName, string[] parameters)
         {
-            double? num1 = parameters.Length > 1 ? double.Parse(parameters[1].Trim()) : null;
-            double? num2 = parameters.Length > 2 ? double.Parse(parameters[2].Trim()) : null;
+            double? num1 = parameters.Length > 0 ? double.Parse(parameters[0].Trim()) : null;
+            double? num2 = parameters.Length > 1 ? double.Parse(parameters[1].Trim()) : null;
 
             switch (methodName)
             {

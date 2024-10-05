@@ -2,13 +2,14 @@ using UU.Lancelot.FileResponder.Interfaces;
 using System.Text.RegularExpressions;
 using System.Xml;
 using UU.Lancelot.FileResponder.Replacers;
-
+using UU.Lancelot.FileResponder.PlaceholderProcessing;
 
 namespace UU.Lancelot.FileResponder.FormatIO;
 public class XmlFormatIO : IFormatIO
 {
-    static ReplacerMain replacerMain = new ReplacerMain();
-    public void Format(Stream fileContent, Stream resultContent, IReplacer replacer)
+    //asi nemuze byt static ze?
+    PlaceholderEvaluator placeholderEvaluator = new PlaceholderEvaluator();
+    public void Format(Stream fileContent, Stream resultContent)
     {
         XmlDocument xmlDocument = new XmlDocument();
         xmlDocument.Load(fileContent);
@@ -35,7 +36,7 @@ public class XmlFormatIO : IFormatIO
             {
                 if (regex.IsMatch(attribute.Value))
                 {
-                    attribute.Value = TrimAndReplaceValue(attribute.Value);
+                    attribute.Value = ReplaceValue(attribute.Value);
                 }
             }
         }
@@ -44,7 +45,7 @@ public class XmlFormatIO : IFormatIO
         {
             if (regex.IsMatch(xmlNode.Value))
             {
-                xmlNode.Value = TrimAndReplaceValue(xmlNode.Value);
+                xmlNode.Value = ReplaceValue(xmlNode.Value);
             }
         }
 
@@ -54,13 +55,8 @@ public class XmlFormatIO : IFormatIO
         }
     }
 
-    public string TrimAndReplaceValue(string value)
+    public string ReplaceValue(string value)
     {
-        value.Trim('{', ' ', '}');
-        string[] parts = value.Split('.', 3, StringSplitOptions.RemoveEmptyEntries);
-        string className = parts[0];
-        string methodName = parts[1];
-        string[] parameters = parts[2].Trim('(', ')').Split(',', StringSplitOptions.RemoveEmptyEntries);
-        return replacerMain.ReplaceValue(className, methodName, parameters);
+        return placeholderEvaluator.Evaluate(value);
     }
 }

@@ -21,7 +21,7 @@ class ReplacerMain : IReplacer
                     return replacerMath.ReplaceValue(className, methodName, parameters);
                 case "String":
                     return replacerString.ReplaceValue(className, methodName, parameters);
-                case "DateTime":
+                case "Datetime":
                     return replacerDatetime.ReplaceValue(className, methodName, parameters);
                 default:
                     Console.WriteLine($"ReplacerMain Class {className} is not implemented.");
