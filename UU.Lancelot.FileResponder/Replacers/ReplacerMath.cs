@@ -2,14 +2,14 @@ using UU.Lancelot.FileResponder.Interfaces;
 
 namespace UU.Lancelot.FileResponder.Replacers
 {
-    public class ReplacerMath : ReplacerBase
+    public class ReplacerMath : IReplacer
     {
-        public override IEnumerable<object> ReplaceBlock(string placeholder)
+        public IEnumerable<object> ReplaceBlock(string placeholder)
         {
             throw new NotImplementedException();
         }
 
-        public override string ReplaceValue(string className, string methodName, string[] parameters)
+        public string ReplaceValue(string className, string methodName, string[] parameters)
         {
             double num1 = double.Parse(parameters[0].Trim());
             double num2 = double.Parse(parameters[1].Trim());

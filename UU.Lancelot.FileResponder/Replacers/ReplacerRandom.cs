@@ -1,9 +1,16 @@
+using UU.Lancelot.FileResponder.Interfaces;
+
+
 namespace UU.Lancelot.FileResponder.Replacers
 {
-    public class ReplacerRandom : ReplacerBase
+    public class ReplacerRandom : IReplacer
     {
+        public IEnumerable<object> ReplaceBlock(string placeholder)
+        {
+            throw new NotImplementedException();
+        }
         static Random random = new Random();
-        public override string ReplaceValue(string className, string methodName, string[] parameters)
+        public string ReplaceValue(string className, string methodName, string[] parameters)
         {
             double? num1 = parameters.Length > 0 ? double.Parse(parameters[0].Trim()) : null;
             double? num2 = parameters.Length > 1 ? double.Parse(parameters[1].Trim()) : null;
@@ -23,11 +30,6 @@ namespace UU.Lancelot.FileResponder.Replacers
                     return "";
             }
         }
-        public override IEnumerable<object> ReplaceBlock(string placeholder)
-        {
-            yield return placeholder;
-        }
-
         bool FirstIsGreater(double? a, double? b)
         {
             return a >= b;
@@ -83,8 +85,5 @@ namespace UU.Lancelot.FileResponder.Replacers
             int randomInt = random.Next(1, 100);
             return (randomInt <= actualChance).ToString();
         }
-
-
-
     }
 }
