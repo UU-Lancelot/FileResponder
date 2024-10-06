@@ -1,23 +1,22 @@
+using System.IO.Compression;
 using UU.Lancelot.FileResponder.Replacers;
 
 namespace UU.Lancelot.FileResponder.PlaceholderProcessing;
 public class PlaceholderEvaluator
 {
     static ReplacerMain replacerMain = new ReplacerMain();
-
     public string Evaluate(string placeholder)
     {
+        placeholder = placeholder.Trim('{', ' ', '}');
+
         if (string.IsNullOrEmpty(placeholder))
         {
             return "";
         }
-        else
-        {
-            placeholder = placeholder.Trim('{', ' ', '}');
-            return ProcessPlaceholder(placeholder);
-        }
-    }
 
+        return ProcessPlaceholder(placeholder);
+
+    }
     private string ProcessPlaceholder(string placeholder)
     {
         placeholder = AddDotToFirstBracket(placeholder);
@@ -38,7 +37,6 @@ public class PlaceholderEvaluator
         placeholder.Replace(placeholder, result);
         return result;
     }
-
     private static string AddDotToFirstBracket(string placeholder)
     {
         int indexForDot = placeholder.IndexOf('(');
@@ -79,11 +77,12 @@ public class PlaceholderEvaluator
             }
             else if (input[i] == ',' && depthBracket == 0 && !isInQuotes)
             {
-                result.Add(input.Substring(start, i - start).Trim());
+                result.Add(input.Substring(start, i - start));
                 start = i + 1;
             }
         }
-        result.Add(input.Substring(start).Trim());
+        result.Add(input.Substring(start));
+        result = result.Select(x => x.Trim()).ToList();
         result.RemoveAll(string.IsNullOrEmpty);
         return result.ToArray();
     }
