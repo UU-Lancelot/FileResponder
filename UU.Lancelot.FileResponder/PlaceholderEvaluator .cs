@@ -41,14 +41,13 @@ public class PlaceholderEvaluator
 
     private static string AddDotToFirstBracket(string placeholder)
     {
-        int indexFirst = placeholder.IndexOf('(');
-        placeholder = placeholder.Remove(indexFirst, 1);
-        placeholder = placeholder.Insert(indexFirst, ".(");
+        int indexForDot = placeholder.IndexOf('(');
+        placeholder = placeholder.Insert(indexForDot, ".");
         return placeholder;
     }
     private static string[] SplitIntoComponents(string placeholder)
     {
-        string[] parts = placeholder.Split(new char[] { '.' }, 3, StringSplitOptions.RemoveEmptyEntries);
+        string[] parts = placeholder.Split('.', 3);
         return parts;
     }
     private static string RemoveOuterBrackets(string placeholder)
@@ -56,22 +55,6 @@ public class PlaceholderEvaluator
         placeholder = placeholder.Remove(0, 1);
         placeholder = placeholder.Remove(placeholder.Length - 1, 1);
         return placeholder;
-    }
-    private static bool IsSimpleParameter(string parameter)
-    {
-        bool isInQuotes = false;
-        for (int i = 0; i < parameter.Length; i++)
-        {
-            if (parameter[i] == '"')
-            {
-                isInQuotes = !isInQuotes;
-            }
-            else if (parameter[i] == '(' && !isInQuotes)
-            {
-                return false;
-            }
-        }
-        return true;
     }
     private static string[] SplitParametr(string input)
     {
@@ -100,14 +83,24 @@ public class PlaceholderEvaluator
                 start = i + 1;
             }
         }
-
         result.Add(input.Substring(start).Trim());
         result.RemoveAll(string.IsNullOrEmpty);
         return result.ToArray();
     }
-    // private string ResolveSimplePlaceholder(string className, string methodName, string[] parameters)
-    // {
-    //     string result = replacerMain.ReplaceValue(className, methodName, parameters);
-    //     return result;
-    // }
+    private static bool IsSimpleParameter(string parameter)
+    {
+        bool isInQuotes = false;
+        for (int i = 0; i < parameter.Length; i++)
+        {
+            if (parameter[i] == '"')
+            {
+                isInQuotes = !isInQuotes;
+            }
+            else if (parameter[i] == '(' && !isInQuotes)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 }
