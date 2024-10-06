@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using UU.Lancelot.FileResponder.Replacers;
 
 namespace UU.Lancelot.FileResponder.PlaceholderProcessing;
@@ -61,14 +59,14 @@ public class PlaceholderEvaluator
     }
     private static bool IsSimpleParameter(string parameter)
     {
-        bool isInQuotes = true;
+        bool isInQuotes = false;
         for (int i = 0; i < parameter.Length; i++)
         {
             if (parameter[i] == '"')
             {
                 isInQuotes = !isInQuotes;
             }
-            else if (parameter[i] == '(' && isInQuotes)
+            else if (parameter[i] == '(' && !isInQuotes)
             {
                 return false;
             }
