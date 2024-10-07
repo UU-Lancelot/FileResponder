@@ -1,20 +1,21 @@
-
 using UU.Lancelot.FileResponder.Interfaces;
+
 
 namespace UU.Lancelot.FileResponder.Replacers
 {
     public class ReplacerRandom : IReplacer
     {
-        static Random random = new Random();
-        public string ReplaceValue(string placeholder)
+        public IEnumerable<object> ReplaceBlock(string placeholder)
         {
-            string[] parts = placeholder.Split(new char[] { '(', ',', ')' }, StringSplitOptions.RemoveEmptyEntries);
-            string method = parts[0].Trim();
-            double? num1 = parts.Length >= 2 ? double.Parse(parts[1].Trim()) : null;
-            double? num2 = parts.Length >= 3 ? double.Parse(parts[2].Trim()) : null;
+            throw new NotImplementedException();
+        }
+        static Random random = new Random();
+        public string ReplaceValue(string className, string methodName, string[] parameters)
+        {
+            double? num1 = parameters.Length > 0 ? double.Parse(parameters[0].Trim()) : null;
+            double? num2 = parameters.Length > 1 ? double.Parse(parameters[1].Trim()) : null;
 
-
-            switch (method)
+            switch (methodName)
             {
                 case "IntRange":
                     return IntRange(num1, num2);
@@ -25,23 +26,26 @@ namespace UU.Lancelot.FileResponder.Replacers
                 case "Bool":
                     return BoolValue(num1);
                 default:
-                    Console.WriteLine($"Random Replacer Class {method} is not implemented.");
+                    Console.WriteLine($"Random Replacer Class {methodName} is not implemented.");
                     return "";
             }
         }
-        public IEnumerable<object> ReplaceBlock(string placeholder)
+        bool FirstIsGreater(double? a, double? b)
         {
-            yield return placeholder;
+            return a >= b;
         }
-
         string IntRange(double? min, double? max)
         {
-            // Použití výchozích hodnot, pokud jsou parametry null
             double actualMin = min ?? 100;
             double actualMax = max ?? 999;
-
-            // +1 to include max value
-            return random.NextInt64(Convert.ToInt64(actualMin), Convert.ToInt64(actualMax + 1)).ToString();
+            if (FirstIsGreater(actualMin, actualMax))
+            {
+                throw new Exception("min should be less than or equal to max");
+            }
+            else
+            {   // +1 to include max value
+                return random.NextInt64(Convert.ToInt64(actualMin), Convert.ToInt64(actualMax + 1)).ToString();
+            }
         }
 
         string DecimalRange(double? min, double? max)
@@ -51,8 +55,16 @@ namespace UU.Lancelot.FileResponder.Replacers
             //return random decimal between 0 - 1
             var result = random.NextDouble();
             //nextint returns min <= x < max
-            result += random.NextInt64(Convert.ToInt64(actualMin), Convert.ToInt64(actualMax));
-            return result.ToString();
+
+            if (FirstIsGreater(min, max))
+            {
+                throw new Exception("min should be less than or equal to max");
+            }
+            else
+            {
+                result += random.NextInt64(Convert.ToInt64(actualMin), Convert.ToInt64(actualMax));
+                return result.ToString();
+            }
         }
         string StringValue(double? length)
         {
@@ -73,8 +85,5 @@ namespace UU.Lancelot.FileResponder.Replacers
             int randomInt = random.Next(1, 100);
             return (randomInt <= actualChance).ToString();
         }
-
-
-
     }
 }

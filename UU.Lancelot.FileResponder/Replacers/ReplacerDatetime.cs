@@ -8,18 +8,15 @@ public class ReplacerDatetime : IReplacer
     {
         throw new NotImplementedException();
     }
-
-    public string ReplaceValue(string placeholder)
+    public string ReplaceValue(string className, string methodName, string[] parameters)
     {
-            string method = placeholder.Split(".")[0].Trim();
-
-            switch (method)
-            {
-                case "Now":
-                    return DateTime.Now.ToString();
-                default:
-                    Console.WriteLine($"DateTime Replacer Class {method} is not implemented.");
-                    return "";
-            }
+        switch (methodName)
+        {
+            case "Now":
+                return DateTime.Now.ToString();
+            default:
+                Console.WriteLine($"DateTime Replacer Class {methodName} is not implemented.");
+                return "";
+        }
     }
 }
