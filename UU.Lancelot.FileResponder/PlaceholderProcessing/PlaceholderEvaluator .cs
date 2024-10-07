@@ -32,10 +32,7 @@ public class PlaceholderEvaluator
                 parameterArray[i] = ProcessPlaceholder(parameterArray[i]);
             }
         }
-
-        string result = replacerMain.ReplaceValue(parts[0], parts[1], parameterArray);
-        placeholder.Replace(placeholder, result);
-        return result;
+        return replacerMain.ReplaceValue(parts[0], parts[1], parameterArray);
     }
     private static string AddDotToFirstBracket(string placeholder)
     {

@@ -7,7 +7,6 @@ using UU.Lancelot.FileResponder.PlaceholderProcessing;
 namespace UU.Lancelot.FileResponder.FormatIO;
 public class XmlFormatIO : IFormatIO
 {
-    //asi nemuze byt static ze?
     PlaceholderEvaluator placeholderEvaluator = new PlaceholderEvaluator();
     public void Format(Stream fileContent, Stream resultContent)
     {
