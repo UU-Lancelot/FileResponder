@@ -1,4 +1,3 @@
-using System.Xml;
 using System.Xml.XPath;
 using UU.Lancelot.FileResponder.Interfaces;
 

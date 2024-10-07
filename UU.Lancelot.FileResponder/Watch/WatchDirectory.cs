@@ -1,4 +1,4 @@
-namespace UU.Lancelot.FileResponder;
+namespace UU.Lancelot.FileResponder.Watch;
 class WatchDirectory : IDisposable
 {
     private const string DIRECTORYPATH = @".\testFolder";

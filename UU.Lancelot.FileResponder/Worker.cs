@@ -1,3 +1,5 @@
+using UU.Lancelot.FileResponder.Watch;
+
 namespace UU.Lancelot.FileResponder;
 
 public class Worker : BackgroundService

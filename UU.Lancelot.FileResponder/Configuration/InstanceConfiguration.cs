@@ -1,10 +1,12 @@
-public class InstanceSettings
+
+namespace UU.Lancelot.FileResponder.Configuration;
+public class InstanceConfiguration
 {
     const string PATH = "appsettings.json";
     public string? InputDir { get; set; }
     public string? OutputDir { get; set; }
     public string? TemplatePath { get; set; }
-    public static List<InstanceSettings>? Instances { get; set; } = new List<InstanceSettings>();
+    public static List<InstanceConfiguration>? Instances { get; set; } = new List<InstanceConfiguration>();
 
     public static void LoadInstances()
     {
@@ -14,7 +16,7 @@ public class InstanceSettings
                 .AddJsonFile(PATH)
                 .Build();
     
-            var settings = configuration.GetSection("Instances").Get<List<InstanceSettings>>();
+            var settings = configuration.GetSection("Instances").Get<List<InstanceConfiguration>>();
     
             if (settings != null)
             {
@@ -33,7 +35,7 @@ public class InstanceSettings
         return !File.Exists(path) || new FileInfo(path).Length == 0;
     }
 
-    public static void RemoveInvalidInstances(List<InstanceSettings>? instances)
+    public static void RemoveInvalidInstances(List<InstanceConfiguration>? instances)
     {
         instances?.RemoveAll(x => x.IsInvalid());
     }
