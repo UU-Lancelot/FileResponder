@@ -24,7 +24,7 @@ class ReplacerInput : IReplacer
         string path = @"..\Examples\test.xml";
         XPathDocument docNav = new XPathDocument(path);
         XPathNavigator nav = docNav.CreateNavigator();
-        string strExpression = ReplaceSquareBrackets(expression.Trim('"'));
+        string strExpression = expression.Trim('"');
 
         XPathNodeIterator NodeIter = nav.Select(strExpression);
         if (NodeIter.MoveNext())
