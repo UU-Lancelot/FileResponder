@@ -8,6 +8,7 @@ class ReplacerMain : IReplacer
     static ReplacerMath replacerMath = new ReplacerMath();
     static ReplacerString replacerString = new ReplacerString();
     static ReplacerDatetime replacerDatetime = new ReplacerDatetime();
+    static ReplacerInput replacerInput = new ReplacerInput();
 
     public string ReplaceValue(string className, string methodName, string[] parameters)
     {
@@ -23,6 +24,8 @@ class ReplacerMain : IReplacer
                     return replacerString.ReplaceValue(className, methodName, parameters);
                 case "Datetime":
                     return replacerDatetime.ReplaceValue(className, methodName, parameters);
+                case "Input":
+                    return replacerInput.ReplaceValue(className, methodName, parameters);
                 default:
                     Console.WriteLine($"ReplacerMain Class {className} is not implemented.");
                     return "";
