@@ -1,5 +1,31 @@
-using  UU.Lancelot.FileResponder.PlaceholderEvaluator;
+// using UU.Lancelot.FileResponder.FormatIO;
 
-string placeholder = $"""Input.XPath("CDSREQ/SenderIdentification[id]")""";
+#if WINDOWS
+    HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
+    builder.Services.AddWindowsService(options =>
+    {
+        options.ServiceName = "Lancelot FileResponder";
+    });
 
-Console.WriteLine(PlaceholderEvaluator.Evaluate(placeholder));
+    LoggerProviderOptions.RegisterProviderOptions<EventLogSettings, EventLogLoggerProvider>(builder.Services);
+
+    builder.Services.AddSingleton<Worker>();
+    builder.Services.AddHostedService<Worker>();
+    builder.Services.AddLogging(configure => configure.AddEventLog());
+
+    IHost host = builder.Build();
+    host.Run();
+#else
+Console.WriteLine("This service can only run on Windows.");
+#endif
+
+// XmlFormatIO xmlFormatIO = new XmlFormatIO();
+
+// string filePath = @"..\Examples\template.xml";
+// string resultPath = @"..\Examples\result.xml";
+
+// using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
+// using (FileStream resultStream = new FileStream(resultPath, FileMode.Create))
+// {
+//     xmlFormatIO.Format(fileStream, resultStream);
+// }

@@ -2,22 +2,19 @@ using UU.Lancelot.FileResponder.Interfaces;
 
 namespace UU.Lancelot.FileResponder.Replacers
 {
-    public class ReplacerMath : PseudoReplacer
+    public class ReplacerMath : IReplacer
     {
-        public new IEnumerable<object> ReplaceBlock(string placeholder)
+        public IEnumerable<object> ReplaceBlock(string placeholder)
         {
             throw new NotImplementedException();
         }
 
-        public new string ReplaceValue(string placeholder)
+        public string ReplaceValue(string className, string methodName, string[] parameters)
         {
-            string[] parts = SplitToMethodAndParameters(placeholder);
-            string method = parts[0].Trim();
-            string[] parameters = SplitParameter(parts[1].Trim());
             double num1 = double.Parse(parameters[0].Trim());
             double num2 = double.Parse(parameters[1].Trim());
 
-            switch (method)
+            switch (methodName)
             {
                 case "Add":
                     return Plus(num1, num2).ToString();
@@ -32,7 +29,7 @@ namespace UU.Lancelot.FileResponder.Replacers
                     var resultDouble = Divide(num1, num2);
                     return resultDouble?.ToString() ?? "";
                 default:
-                    Console.WriteLine($"Math Replacer Class {method} is not implemented.");
+                    Console.WriteLine($"Math Replacer Class {methodName} is not implemented.");
                     return "";
             }
         }

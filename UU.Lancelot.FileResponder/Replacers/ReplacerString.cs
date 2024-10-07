@@ -3,32 +3,27 @@ using UU.Lancelot.FileResponder.Interfaces;
 
 namespace UU.Lancelot.FileResponder.Replacers
 {
-    public class ReplacerString : PseudoReplacer
+    public class ReplacerString : IReplacer
     {
-        public new IEnumerable<object> ReplaceBlock(string placeholder)
+        public IEnumerable<object> ReplaceBlock(string placeholder)
         {
             throw new NotImplementedException();
         }
 
-        public new string ReplaceValue(string placeholder)
+        public string ReplaceValue(string className, string methodName, string[] parameters)
         {
-            string[] parts = SplitToMethodAndParameters(placeholder);
-            string method = parts[0];
-            string[] words = SplitParameter(parts[1].Trim());
-
-
-            switch (method)
+            switch (methodName)
             {
                 case "Concat":
-                    return Concat(words);
+                    return Concat(parameters);
                 case "Repeat":
-                    if (words.Length == 1)
+                    if (parameters.Length == 1)
                     {
-                        return Repeat(words[0], null);
+                        return Repeat(parameters[0], null);
                     }
-                    return Repeat(words[0], words[1]);
+                    return Repeat(parameters[0], parameters[1]);
                 default:
-                    Console.WriteLine($"String Replacer Class {method} is not implemented.");
+                    Console.WriteLine($"String Replacer Class {methodName} is not implemented.");
                     return "";
             }
         }

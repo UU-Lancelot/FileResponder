@@ -2,28 +2,20 @@ using UU.Lancelot.FileResponder.Interfaces;
 
 namespace UU.Lancelot.FileResponder.Replacers;
 
-public class ReplacerDatetime : PseudoReplacer
+public class ReplacerDatetime : IReplacer
 {
-    public new IEnumerable<object> ReplaceBlock(string placeholder)
+    public IEnumerable<object> ReplaceBlock(string placeholder)
     {
         throw new NotImplementedException();
     }
-
-    public new string ReplaceValue(string placeholder)
+    public string ReplaceValue(string className, string methodName, string[] parameters)
     {
-        string[] parts = SplitToMethodAndParameters(placeholder);
-        string method = parts[0];
-        if (parts.Length > 1)
-        {
-            string[] parameters = SplitParameter(parts[1].Trim());
-        }
-
-        switch (method)
+        switch (methodName)
         {
             case "Now":
                 return DateTime.Now.ToString();
             default:
-                Console.WriteLine($"DateTime Replacer Class {method} is not implemented.");
+                Console.WriteLine($"DateTime Replacer Class {methodName} is not implemented.");
                 return "";
         }
     }

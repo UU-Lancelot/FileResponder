@@ -1,21 +1,21 @@
-
 using UU.Lancelot.FileResponder.Interfaces;
+
 
 namespace UU.Lancelot.FileResponder.Replacers
 {
-    public class ReplacerRandom : PseudoReplacer
+    public class ReplacerRandom : IReplacer
     {
-        static Random random = new Random();
-        public Exception exception { get; set; } = new Exception();
-        public new string ReplaceValue(string placeholder)
+        public IEnumerable<object> ReplaceBlock(string placeholder)
         {
-            string[] parts = placeholder.Split('.', StringSplitOptions.RemoveEmptyEntries);
-            string method = parts[0].Trim();
-            string[] parameters = SplitParameter(parts[1].Trim());
-            double? num1 = parameters.Length >= 1 ? double.Parse(parameters[0].Trim()) : null;
-            double? num2 = parameters.Length >= 2 ? double.Parse(parameters[1].Trim()) : null;
+            throw new NotImplementedException();
+        }
+        static Random random = new Random();
+        public string ReplaceValue(string className, string methodName, string[] parameters)
+        {
+            double? num1 = parameters.Length > 0 ? double.Parse(parameters[0].Trim()) : null;
+            double? num2 = parameters.Length > 1 ? double.Parse(parameters[1].Trim()) : null;
 
-            switch (method)
+            switch (methodName)
             {
                 case "IntRange":
                     return IntRange(num1, num2);
@@ -26,15 +26,10 @@ namespace UU.Lancelot.FileResponder.Replacers
                 case "Bool":
                     return BoolValue(num1);
                 default:
-                    Console.WriteLine($"Random Replacer Class {method} is not implemented.");
+                    Console.WriteLine($"Random Replacer Class {methodName} is not implemented.");
                     return "";
             }
         }
-        public IEnumerable<object> ReplaceBlock(string placeholder)
-        {
-            yield return placeholder;
-        }
-
         bool FirstIsGreater(double? a, double? b)
         {
             return a >= b;
@@ -90,8 +85,5 @@ namespace UU.Lancelot.FileResponder.Replacers
             int randomInt = random.Next(1, 100);
             return (randomInt <= actualChance).ToString();
         }
-
-
-
     }
 }

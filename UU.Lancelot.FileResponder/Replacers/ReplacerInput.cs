@@ -1,23 +1,20 @@
 using System.Xml;
 using System.Xml.XPath;
+using UU.Lancelot.FileResponder.Interfaces;
 
 
 namespace UU.Lancelot.FileResponder.Replacers;
 
-class ReplacerInput : PseudoReplacer
+class ReplacerInput : IReplacer
 {
-    public new string ReplaceValue(string placeholder)
+    public string ReplaceValue(string className, string methodName, string[] parameters)
     {
-        string[] parts = SplitToMethodAndParameters(placeholder);
-        string method = parts[0];
-        string[] parameters = SplitParameter(parts[1].Trim());
-
-        switch (method)
+        switch (methodName)
         {
             case "XPath":
                 return XPath(parameters[0]);
             default:
-                Console.WriteLine($"Input Replacer Class {method} is not implemented.");
+                Console.WriteLine($"Input Replacer Class {methodName} is not implemented.");
                 return "";
         }
     }
@@ -41,5 +38,10 @@ class ReplacerInput : PseudoReplacer
     string ReplaceSquareBrackets(string value)
     {
         return value.Replace("[", "/@").Replace("]", "");
+    }
+
+    public IEnumerable<object> ReplaceBlock(string placeholder)
+    {
+        throw new NotImplementedException();
     }
 }
