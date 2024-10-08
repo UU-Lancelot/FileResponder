@@ -1,3 +1,5 @@
+using UU.Lancelot.FileResponder.Configuration;
+
 namespace UU.Lancelot.FileResponder.Watch;
 class WatchDirectory : IDisposable
 {
@@ -5,11 +7,13 @@ class WatchDirectory : IDisposable
     private List<string> knownFiles = new List<string>();
     private CancellationTokenSource? cancellationTokenSource;
     public Task? task;
-    public event EventHandler<string>? pathFileChangedEventHandler;
- 
-    public WatchDirectory(string directoryPath)
+    private InstanceConfiguration instanceConfiguration;
+    public event EventHandler<(string, InstanceConfiguration)>? pathFileChangedEventHandler;
+
+    public WatchDirectory(InstanceConfiguration instanceConfiguration)
     {
-        DirectoryPath = directoryPath;
+        this.instanceConfiguration = instanceConfiguration;
+        DirectoryPath = instanceConfiguration.InputDir!;
     }
     public void StartWatchingDirectory()
     {
@@ -25,7 +29,7 @@ class WatchDirectory : IDisposable
 
             foreach (string file in newFiles)
             {
-                pathFileChangedEventHandler?.Invoke(this, file);
+                pathFileChangedEventHandler?.Invoke(this, (file, instanceConfiguration));
             }
 
             await Task.Delay(1000);

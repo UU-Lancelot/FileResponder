@@ -6,7 +6,7 @@ class PlaceholderEvaluator
 {
     ReplacerMain? replacerMain;
 
-    public PlaceholderEvaluator(IServiceProvider serviceProvider ,ReplacerMain replacerMain)
+    public PlaceholderEvaluator(IServiceProvider serviceProvider)
     {
         using (var scope = serviceProvider.CreateScope())
         {

@@ -3,19 +3,42 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using UU.Lancelot.FileResponder.Replacers;
 using UU.Lancelot.FileResponder.PlaceholderProcessing;
+using UU.Lancelot.FileResponder.Configuration;
 
 namespace UU.Lancelot.FileResponder.FormatIO;
 class XmlFormatIO : IFormatIO
 {
     PlaceholderEvaluator? placeholderEvaluator;
 
-    public XmlFormatIO(IServiceProvider serviceProvider, PlaceholderEvaluator placeholderEvaluator)
+    public XmlFormatIO(IServiceProvider serviceProvider)
     {
         using (var scope = serviceProvider.CreateScope())
         {
             placeholderEvaluator = scope.ServiceProvider.GetRequiredService<PlaceholderEvaluator>();
         }
     }
+    public void Format_EventHandler(object sender, (string, InstanceConfiguration) args)
+    {
+        string file = args.Item1;
+        InstanceConfiguration instanceConfiguration = args.Item2;
+        string outputFilePath = instanceConfiguration.OutputDir + file.Substring(instanceConfiguration.InputDir.Length);
+
+        try
+        {
+            using (var input = new FileStream(file, FileMode.Open))
+            using (var output = new FileStream(outputFilePath, FileMode.Create))
+            {
+                Format(input, output);
+            }
+        }
+
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+
+    }
+
     public void Format(Stream fileContent, Stream resultContent)
     {
         XmlDocument xmlDocument = new XmlDocument();
@@ -64,6 +87,6 @@ class XmlFormatIO : IFormatIO
 
     public string ReplaceValue(string value)
     {
-        return placeholderEvaluator!.Evaluate(value);
+        return placeholderEvaluator.Evaluate(value);
     }
 }

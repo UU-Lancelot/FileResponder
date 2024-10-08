@@ -1,14 +1,23 @@
+using System.Xml.Serialization;
 using UU.Lancelot.FileResponder.Configuration;
+using UU.Lancelot.FileResponder.FormatIO;
+using UU.Lancelot.FileResponder.Interfaces;
 using UU.Lancelot.FileResponder.Watch;
 
 namespace UU.Lancelot.FileResponder;
 
 public class Worker : BackgroundService
 {
-    private readonly ILogger<Worker> _logger;
+    private readonly ILogger<Worker>? _logger;
+    private readonly XmlFormatIO? _XmlFormatIO;
 
-    public Worker(ILogger<Worker> logger)
+    public Worker(ILogger<Worker> logger, IServiceProvider serviceProvider)
     {
+        using (var scope = serviceProvider.CreateScope())
+        {
+            _XmlFormatIO = scope.ServiceProvider.GetRequiredService<XmlFormatIO>();
+        }
+
         _logger = logger;
     }
 
@@ -20,9 +29,9 @@ public class Worker : BackgroundService
         {
             tasks.Add(Task.Run(async () =>
             {
-                using (WatchDirectory watchDirectory = new WatchDirectory(instance.InputDir!))
+                using (WatchDirectory watchDirectory = new WatchDirectory(instance))
                 {
-                    watchDirectory.pathFileChangedEventHandler += Delete.Delete_EventHandler;
+                    watchDirectory.pathFileChangedEventHandler += _XmlFormatIO.Format_EventHandler;
                     watchDirectory.StartWatchingDirectory();
 
                     if (_logger.IsEnabled(LogLevel.Information))

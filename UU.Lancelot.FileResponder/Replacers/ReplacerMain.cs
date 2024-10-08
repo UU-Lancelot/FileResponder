@@ -11,7 +11,7 @@ class ReplacerMain : IReplacer
     ReplacerDatetime? replacerDatetime;
     ReplacerInput? replacerInput;
 
-    public ReplacerMain(IServiceProvider serviceProvider, ReplacerDatetime replacerDatetime, ReplacerInput replacerInput, ReplacerMath replacerMath, ReplacerRandom replacerRandom, ReplacerString replacerString)
+    public ReplacerMain(IServiceProvider serviceProvider)
     {
         using (var scope = serviceProvider.CreateScope())
         {
