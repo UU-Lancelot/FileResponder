@@ -1,31 +1,36 @@
 // using UU.Lancelot.FileResponder.FormatIO;
 
-#if WINDOWS
-    HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
-    builder.Services.AddWindowsService(options =>
-    {
-        options.ServiceName = "Lancelot FileResponder";
-    });
+// #if WINDOWS
+using Microsoft.Extensions.Logging.Configuration;
+using Microsoft.Extensions.Logging.EventLog;
+using UU.Lancelot.FileResponder;
+using UU.Lancelot.FileResponder.Configuration;
+using UU.Lancelot.FileResponder.Replacers;
 
-    LoggerProviderOptions.RegisterProviderOptions<EventLogSettings, EventLogLoggerProvider>(builder.Services);
+HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
+builder.Services.AddWindowsService(options =>
+{
+    options.ServiceName = "Lancelot FileResponder";
+});
 
-    builder.Services.AddSingleton<Worker>();
-    builder.Services.AddHostedService<Worker>();
-    builder.Services.AddLogging(configure => configure.AddEventLog());
+LoggerProviderOptions.RegisterProviderOptions<EventLogSettings, EventLogLoggerProvider>(builder.Services);
 
-    IHost host = builder.Build();
-    host.Run();
-#else
-Console.WriteLine("This service can only run on Windows.");
-#endif
+builder.Services.AddSingleton<Worker>();
+builder.Services.AddHostedService<Worker>();
 
-// XmlFormatIO xmlFormatIO = new XmlFormatIO();
+builder.Services.AddScoped<ReplacerDatetime>();
+builder.Services.AddScoped<ReplacerInput>();
+builder.Services.AddScoped<ReplacerMath>();
+builder.Services.AddScoped<ReplacerRandom>();
+builder.Services.AddScoped<ReplacerString>();
 
-// string filePath = @"..\Examples\template.xml";
-// string resultPath = @"..\Examples\result.xml";
+builder.Services.AddLogging(configure => configure.AddEventLog());
 
-// using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
-// using (FileStream resultStream = new FileStream(resultPath, FileMode.Create))
-// {
-//     xmlFormatIO.Format(fileStream, resultStream);
-// }
+List<InstanceConfiguration> instances = InstanceConfiguration.LoadInstances();
+
+
+IHost host = builder.Build();
+host.Run();
+// #else
+// Console.WriteLine("This service can only run on Windows.");
+// #endif

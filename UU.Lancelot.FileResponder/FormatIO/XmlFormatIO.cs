@@ -5,9 +5,17 @@ using UU.Lancelot.FileResponder.Replacers;
 using UU.Lancelot.FileResponder.PlaceholderProcessing;
 
 namespace UU.Lancelot.FileResponder.FormatIO;
-public class XmlFormatIO : IFormatIO
+class XmlFormatIO : IFormatIO
 {
-    PlaceholderEvaluator placeholderEvaluator = new PlaceholderEvaluator();
+    PlaceholderEvaluator? placeholderEvaluator;
+
+    public XmlFormatIO(IServiceProvider serviceProvider, PlaceholderEvaluator placeholderEvaluator)
+    {
+        using (var scope = serviceProvider.CreateScope())
+        {
+            placeholderEvaluator = scope.ServiceProvider.GetRequiredService<PlaceholderEvaluator>();
+        }
+    }
     public void Format(Stream fileContent, Stream resultContent)
     {
         XmlDocument xmlDocument = new XmlDocument();
@@ -56,6 +64,6 @@ public class XmlFormatIO : IFormatIO
 
     public string ReplaceValue(string value)
     {
-        return placeholderEvaluator.Evaluate(value);
+        return placeholderEvaluator!.Evaluate(value);
     }
 }

@@ -6,10 +6,11 @@ public class InstanceConfiguration
     public string? InputDir { get; set; }
     public string? OutputDir { get; set; }
     public string? TemplatePath { get; set; }
-    public static List<InstanceConfiguration>? Instances { get; set; } = new List<InstanceConfiguration>();
 
-    public static void LoadInstances()
+    public static List<InstanceConfiguration> LoadInstances()
     {
+        List<InstanceConfiguration> Instances = new List<InstanceConfiguration>();
+        
         if (!IsFileEmpty(PATH))
         {
             var configuration = new ConfigurationBuilder()
@@ -24,10 +25,12 @@ public class InstanceConfiguration
     
                 foreach (var setting in settings)
                 {
-                    Instances?.Add(setting);
+                    Instances.Add(setting);
                 }
             }
         }
+
+        return Instances;
     }
 
     static bool IsFileEmpty(string path)

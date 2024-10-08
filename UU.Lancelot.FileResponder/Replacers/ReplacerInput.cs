@@ -34,11 +34,6 @@ class ReplacerInput : IReplacer
         return "";
     }
 
-    string ReplaceSquareBrackets(string value)
-    {
-        return value.Replace("[", "/@").Replace("]", "");
-    }
-
     public IEnumerable<object> ReplaceBlock(string placeholder)
     {
         throw new NotImplementedException();

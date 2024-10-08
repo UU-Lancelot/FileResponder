@@ -1,14 +1,27 @@
+using Microsoft.Extensions.DependencyInjection;
 using UU.Lancelot.FileResponder.Interfaces;
 
 namespace UU.Lancelot.FileResponder.Replacers;
 
 class ReplacerMain : IReplacer
 {
-    static ReplacerRandom replacerRandom = new ReplacerRandom();
-    static ReplacerMath replacerMath = new ReplacerMath();
-    static ReplacerString replacerString = new ReplacerString();
-    static ReplacerDatetime replacerDatetime = new ReplacerDatetime();
-    static ReplacerInput replacerInput = new ReplacerInput();
+    ReplacerRandom? replacerRandom;
+    ReplacerMath? replacerMath;
+    ReplacerString? replacerString;
+    ReplacerDatetime? replacerDatetime;
+    ReplacerInput? replacerInput;
+
+    public ReplacerMain(IServiceProvider serviceProvider, ReplacerDatetime replacerDatetime, ReplacerInput replacerInput, ReplacerMath replacerMath, ReplacerRandom replacerRandom, ReplacerString replacerString)
+    {
+        using (var scope = serviceProvider.CreateScope())
+        {
+            replacerDatetime = scope.ServiceProvider.GetRequiredService<ReplacerDatetime>();
+            replacerInput = scope.ServiceProvider.GetRequiredService<ReplacerInput>();
+            replacerMath = scope.ServiceProvider.GetRequiredService<ReplacerMath>();
+            replacerRandom = scope.ServiceProvider.GetRequiredService<ReplacerRandom>();
+            replacerString = scope.ServiceProvider.GetRequiredService<ReplacerString>();
+        }
+    }
 
     public string ReplaceValue(string className, string methodName, string[] parameters)
     {
