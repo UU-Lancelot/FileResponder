@@ -6,6 +6,7 @@ public class InstanceConfiguration
     public string? InputDir { get; set; }
     public string? OutputDir { get; set; }
     public string? TemplatePath { get; set; }
+    public string[]? dataStores { get; set; }
     public static List<InstanceConfiguration>? Instances { get; set; } = new List<InstanceConfiguration>();
 
     public static void LoadInstances()
@@ -44,5 +45,10 @@ public class InstanceConfiguration
         return string.IsNullOrWhiteSpace(InputDir) ||
                string.IsNullOrWhiteSpace(OutputDir) ||
                string.IsNullOrWhiteSpace(TemplatePath);
+    }
+
+    public bool HasDataStores()
+    {
+        return dataStores != null && dataStores.Length > 0;
     }
 }
