@@ -6,23 +6,23 @@ public class InstanceConfiguration
     public string? InputDir { get; set; }
     public string? OutputDir { get; set; }
     public string? TemplatePath { get; set; }
-
+    public string[]? dataStores { get; set; }
     public static List<InstanceConfiguration> LoadInstances()
     {
         List<InstanceConfiguration> Instances = new List<InstanceConfiguration>();
-        
+
         if (!IsFileEmpty(PATH))
         {
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile(PATH)
                 .Build();
-    
+
             var settings = configuration.GetSection("Instances").Get<List<InstanceConfiguration>>();
-    
+
             if (settings != null)
             {
                 RemoveInvalidInstances(settings);
-    
+
                 foreach (var setting in settings)
                 {
                     Instances.Add(setting);
