@@ -2,7 +2,7 @@ using UU.Lancelot.FileResponder.Interfaces;
 
 namespace UU.Lancelot.FileResponder.Replacers;
 
-class ReplacerMain : IReplacer
+class ReplacerMain : IReplacer, IBlockReplacer
 {
     static ReplacerRandom replacerRandom = new ReplacerRandom();
     static ReplacerMath replacerMath = new ReplacerMath();
