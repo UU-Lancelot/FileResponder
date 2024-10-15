@@ -9,6 +9,8 @@ class ReplacerMain : IReplacer, IBlockReplacer
     static ReplacerString replacerString = new ReplacerString();
     static ReplacerDatetime replacerDatetime = new ReplacerDatetime();
     static ReplacerInput replacerInput = new ReplacerInput();
+    static ReplacerCSV replacerCSV = new ReplacerCSV();
+    static ReplacerIf replacerIf = new ReplacerIf();
 
     public string ReplaceValue(string className, string methodName, string[] parameters)
     {
@@ -26,6 +28,10 @@ class ReplacerMain : IReplacer, IBlockReplacer
                     return replacerDatetime.ReplaceValue(className, methodName, parameters);
                 case "Input":
                     return replacerInput.ReplaceValue(className, methodName, parameters);
+                case "ReplacerCSV":
+                    return replacerCSV.ReplaceValue(className, methodName, parameters);
+                case "ReplacerIf":
+                    return replacerIf.ReplaceValue(className, methodName, parameters);
                 default:
                     Console.WriteLine($"ReplacerMain Class {className} is not implemented.");
                     return "";
@@ -38,9 +44,9 @@ class ReplacerMain : IReplacer, IBlockReplacer
         }
     }
 
-    public IEnumerable<object> ReplaceBlock(string placeholder)
+    public IEnumerable<object> ReplaceBlock(string className, string methodName, string[] parameters)
     {
-        yield return placeholder;
+        yield return className;
     }
 
 }

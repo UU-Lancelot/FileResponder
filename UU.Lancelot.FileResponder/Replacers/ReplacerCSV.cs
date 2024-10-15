@@ -12,8 +12,4 @@ public class ReplacerCSV : IReplacer
                 return "";
         }
     }
-    public IEnumerable<object> ReplaceBlock(string placeholder)
-    {
-        throw new NotImplementedException();
-    }
 }
