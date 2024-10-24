@@ -4,39 +4,34 @@ namespace UU.Lancelot.FileResponder.Replacers;
 
 public class ReplacerIf : IBlockReplacer
 {
-    public string ReplaceValue(string className, string methodName, string[] parameters)
+    public IEnumerable<object> ReplaceBlock(string className, string methodName, string[] parameters, string block)
     {
         switch (methodName)
-        {   
+        {
             case "AreEqual":
-                return AreEqual(parameters).ToString();
+                return AreEqual(parameters) ? new List<object> { block } : new List<object>();
             default:
-                return "";
+                return new List<object>();
         }
-    }
-    public IEnumerable<object> ReplaceBlock(string className, string methodName, string[] parameters)
-    {
-        string result = ReplaceValue(className, methodName, parameters);
-        yield return result;
     }
 
     public bool AreEqual(string[] parameters)
+    {
+        if (parameters == null || parameters.Length == 0)
         {
-            if (parameters == null || parameters.Length == 0)
+            return false;
+        }
+
+        string firstValue = parameters[0];
+        foreach (string parameter in parameters)
+        {
+            if (parameter != firstValue)
             {
                 return false;
             }
-
-            string firstValue = parameters[0];
-            foreach (string parameter in parameters)
-            {
-                if (parameter != firstValue)
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
+
+        return true;
+    }
 
 }

@@ -16,15 +16,16 @@ public class XmlFormatIO : IFormatIO
         using (StreamWriter streamWriter = new StreamWriter(resultContent))
         using (XmlWriter xmlWriter = XmlWriter.Create(streamWriter))
         {
-            Regex regex = new Regex(@"\{\{(.*)\}\}");
+            Regex regexSimplePlaceholder = new Regex(@"\{\{(.*)\}\}");
+            Regex regexBlockPlaceholder = new Regex(@"\{\{\{(.*)\}\}\}");
 
-            ProcessXmlNode(xmlDocument.DocumentElement, regex);
+            ProcessXmlNode(xmlDocument.DocumentElement, regexSimplePlaceholder, regexBlockPlaceholder);
 
             xmlDocument.WriteTo(xmlWriter);
         }
     }
 
-    private void ProcessXmlNode(XmlNode? xmlNode, Regex regex)
+    private void ProcessXmlNode(XmlNode? xmlNode, Regex regexSimple, Regex regexBlock)
     {
         if (xmlNode == null)
         { return; }
@@ -33,7 +34,7 @@ public class XmlFormatIO : IFormatIO
         {
             foreach (XmlAttribute attribute in xmlNode.Attributes)
             {
-                if (regex.IsMatch(attribute.Value))
+                if (regexSimple.IsMatch(attribute.Value) || regexBlock.IsMatch(attribute.Value))
                 {
                     attribute.Value = ReplaceValue(attribute.Value);
                 }
@@ -42,7 +43,7 @@ public class XmlFormatIO : IFormatIO
 
         if (xmlNode.NodeType == XmlNodeType.Text && xmlNode.Value != null)
         {
-            if (regex.IsMatch(xmlNode.Value))
+            if (regexSimple.IsMatch(xmlNode.Value) || regexBlock.IsMatch(xmlNode.Value))
             {
                 xmlNode.Value = ReplaceValue(xmlNode.Value);
             }
@@ -50,7 +51,7 @@ public class XmlFormatIO : IFormatIO
 
         foreach (XmlNode childNode in xmlNode.ChildNodes)
         {
-            ProcessXmlNode(childNode, regex);
+            ProcessXmlNode(childNode, regexSimple, regexBlock);
         }
     }
 

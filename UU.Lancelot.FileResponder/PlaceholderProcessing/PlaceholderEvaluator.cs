@@ -20,19 +20,29 @@ public class PlaceholderEvaluator
     private string ProcessPlaceholder(string placeholder)
     {
         placeholder = AddDotToFirstBracket(placeholder);
-        string[] parts = SplitIntoComponents(placeholder);
+        //0 - class name | 1 - method name | 2 - parameters | 3 - block
+        List<string> parts = SplitIntoComponents(placeholder);
         parts[2] = RemoveOuterBrackets(parts[2]);
 
-        string[] parameterArray = SplitParametr(parts[2]);
+        List<string> parameterList = SplitParametr(parts[2]);
 
-        for (int i = 0; i < parameterArray.Length; i++)
+        for (int i = 0; i < parameterList.Count; i++)
         {
-            if (!IsSimpleParameter(parameterArray[i]))
+            if (!IsSimpleParameter(parameterList[i]))
             {
-                parameterArray[i] = ProcessPlaceholder(parameterArray[i]);
+                parameterList[i] = ProcessPlaceholder(parameterList[i]);
             }
         }
-        return replacerMain.ReplaceValue(parts[0], parts[1], parameterArray);
+
+        if (string.IsNullOrEmpty(parts[3]))
+        {
+            return replacerMain.ReplaceValue(parts[0], parts[1], parameterList.ToArray());
+        }
+        else
+        {
+            var result = replacerMain.ReplaceBlock(parts[0], parts[1], parameterList.ToArray(), parts[3]);
+            return result?.ToString() ?? "";
+        }
     }
     private static string AddDotToFirstBracket(string placeholder)
     {
@@ -40,18 +50,23 @@ public class PlaceholderEvaluator
         placeholder = placeholder.Insert(indexForDot, ".");
         return placeholder;
     }
-    private static string[] SplitIntoComponents(string placeholder)
+    private static List<string> SplitIntoComponents(string placeholder)
     {
-        string[] parts = placeholder.Split('.', 3);
+        List<string> parts = placeholder.Split('.', 3).ToList();
+        List<string> paraAndBlock = SeprateParameterAndBlock(parts[2]);
+        //parameter
+        parts[2] = paraAndBlock[0];
+        //block if there is no it will be emtpy string ""
+        parts.Add(paraAndBlock[1]);
         return parts;
     }
     private static string RemoveOuterBrackets(string placeholder)
     {
         placeholder = placeholder.Remove(0, 1);
-        placeholder = placeholder.Remove(placeholder.Length - 1, 1);
+        placeholder = placeholder.Remove(placeholder.LastIndexOf(')'));
         return placeholder;
     }
-    private static string[] SplitParametr(string input)
+    private static List<string> SplitParametr(string input)
     {
         List<string> result = new List<string>();
         int start = 0;
@@ -81,7 +96,7 @@ public class PlaceholderEvaluator
         result.Add(input.Substring(start));
         result = result.Select(x => x.Trim()).ToList();
         result.RemoveAll(string.IsNullOrEmpty);
-        return result.ToArray();
+        return result;
     }
     private static bool IsSimpleParameter(string parameter)
     {
@@ -99,4 +114,16 @@ public class PlaceholderEvaluator
         }
         return true;
     }
+    private static List<string> SeprateParameterAndBlock(string parameter)
+    {
+        if (!parameter.Contains("}}"))
+        {
+            return new List<string> { parameter, "" };
+        }
+
+        List<string> result = parameter.Split("}}", 2).ToList();
+        result.ForEach(x => x = x.Trim());
+        return result;
+    }
+
 }

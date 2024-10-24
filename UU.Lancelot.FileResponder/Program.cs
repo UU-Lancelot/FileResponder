@@ -19,14 +19,23 @@
 // Console.WriteLine("This service can only run on Windows.");
 // #endif
 
-using UU.Lancelot.FileResponder.Replacers;
+// v replacerIf to bude vzdy zobrazovat block?
+// co s tim ma delat 
 
-ReplacerIf replacer = new ReplacerIf();
-string[] parameters = { "test", "test", "test" };
 
-IEnumerable<object> result = replacer.ReplaceBlock("..", "AreEqual", parameters);
 
-foreach (var item in result)
+using UU.Lancelot.FileResponder.FormatIO;
+using UU.Lancelot.FileResponder.PlaceholderProcessing;
+
+string placeholder = @"{{{ If.AreEqual(Random.IntRange(0, 6), 0) }} <Looser /> }}}";
+
+XmlFormatIO xmlFormatIO = new XmlFormatIO();
+
+string filepath = @"..\Examples\template.xml";
+string resultpath = @"C:\Users\marek\Desktop\result.xml";
+
+using (FileStream fileStream = new FileStream(filepath, FileMode.Open))
+using (FileStream resultStream = new FileStream(resultpath, FileMode.Create))
 {
-    Console.WriteLine(item); // Output: True
+    xmlFormatIO.Format(fileStream, resultStream);
 }
