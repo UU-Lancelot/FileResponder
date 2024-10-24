@@ -11,7 +11,6 @@
   ahoj=" {{ Math.Add(1000000, 24124) }}"
   cau=" {{ Math.Add(1000000, 24124) }}"
   nazdar=" {{ String.Repeat(Random.String(Math.Add(5, 6)), Random.IntRange(1, 10)) }}"
-  random=" {{ String.Concat(Random.String(5), Random.String(5)) }}"
+  random=" {{{ If.AreEqual(1, 1) }}} ahoj }}"
 >
-  <Test>{{ CDSREQ/SenderIdentification/@id }}</Test>
 </ISOTEDATA>
