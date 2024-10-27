@@ -30,11 +30,16 @@ public class XmlFormatIO : IFormatIO
         if (xmlNode == null)
         { return; }
 
+        if (ContaintBlock(xmlNode.InnerXml))
+        {
+            xmlNode.InnerXml = ReplaceValue(xmlNode.InnerXml);
+        }
+
         if (xmlNode.Attributes != null)
         {
             foreach (XmlAttribute attribute in xmlNode.Attributes)
             {
-                if (regexSimple.IsMatch(attribute.Value) || regexBlock.IsMatch(attribute.Value))
+                if (regexSimple.IsMatch(attribute.Value))
                 {
                     attribute.Value = ReplaceValue(attribute.Value);
                 }
@@ -43,7 +48,7 @@ public class XmlFormatIO : IFormatIO
 
         if (xmlNode.NodeType == XmlNodeType.Text && xmlNode.Value != null)
         {
-            if (regexSimple.IsMatch(xmlNode.Value) || regexBlock.IsMatch(xmlNode.Value))
+            if (regexSimple.IsMatch(xmlNode.Value))
             {
                 xmlNode.Value = ReplaceValue(xmlNode.Value);
             }
@@ -58,5 +63,10 @@ public class XmlFormatIO : IFormatIO
     public string ReplaceValue(string value)
     {
         return placeholderEvaluator.Evaluate(value);
+    }
+
+    bool ContaintBlock(string value)
+    {
+        return value.StartsWith("{{{") && value.EndsWith("}}}");
     }
 }

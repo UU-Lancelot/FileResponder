@@ -4,7 +4,7 @@ namespace UU.Lancelot.FileResponder.Replacers;
 
 public class ReplacerFor : IBlockReplacer, IReplacer
 {
-    public IEnumerable<object> ReplaceBlock(string className, string methodName, string[] parameters, string block)
+    public string ReplaceBlock(string className, string methodName, string[] parameters, string block)
     {
         throw new NotImplementedException();
     }

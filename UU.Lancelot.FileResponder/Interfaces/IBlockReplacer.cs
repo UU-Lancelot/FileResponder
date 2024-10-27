@@ -2,5 +2,5 @@ namespace UU.Lancelot.FileResponder.Interfaces;
 
 public interface IBlockReplacer
 {
-    IEnumerable<object> ReplaceBlock(string className, string methodName, string[] parameters, string block);
+    string ReplaceBlock(string className, string methodName, string[] parameters, string block);
 }

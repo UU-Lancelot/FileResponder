@@ -40,7 +40,7 @@ class ReplacerMain : IReplacer, IBlockReplacer
         }
     }
 
-    public IEnumerable<object> ReplaceBlock(string className, string methodName, string[] parameters, string block)
+    public string ReplaceBlock(string className, string methodName, string[] parameters, string block)
     {
         switch (className)
         {
@@ -51,7 +51,7 @@ class ReplacerMain : IReplacer, IBlockReplacer
 
             default:
                 Console.WriteLine($"ReplacerMain Class {className} is not implemented.");
-                return new List<object>();
+                return string.Empty;
         }
 
     }
