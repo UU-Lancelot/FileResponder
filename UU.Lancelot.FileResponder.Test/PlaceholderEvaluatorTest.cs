@@ -2,7 +2,7 @@ using UU.Lancelot.FileResponder.PlaceholderProcessing;
 
 namespace UU.Lancelot.FileResponder.Test
 {
-    public class UnitTest1
+    public class PlaceholderEvaluatorTest
     {
         PlaceholderEvaluator placeholderEvaluator = new PlaceholderEvaluator();
 

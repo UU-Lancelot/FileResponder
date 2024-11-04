@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("UU.Lancelot.FileResponder.Test")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+111b4431b6542716abcc97049de0c9bfe3196c98")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a1f6ff6be67b955b8d43f90263a68a92ab671b20")]
 [assembly: System.Reflection.AssemblyProductAttribute("UU.Lancelot.FileResponder.Test")]
 [assembly: System.Reflection.AssemblyTitleAttribute("UU.Lancelot.FileResponder.Test")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

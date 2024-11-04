@@ -1,0 +1,9 @@
+{
+    "dotnet-test-explorer.testProjectPath": "**/UU.Lancelot.FileResponder.Test/*.csproj",
+    "dotnet-test-explorer.testArguments": "--logger:console;verbosity=detailed",
+    "csharp.suppressDotnetRestoreNotification": true,
+    "csharp.format.enable": true,
+    "dotnet.defaultSolution": "FileResponder.sln",
+    "csharp.format.insertSpaceAfterKeywordsInControlFlowStatements": true,
+    "csharp.format.insertNewlineAtEndOfFile": true
+}

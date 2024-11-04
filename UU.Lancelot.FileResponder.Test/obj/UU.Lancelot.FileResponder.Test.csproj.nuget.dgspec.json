@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\marek\\source\\FileResponder\\UU.Lancelot.FileResponder.Test\\UU.Lancelot.FileResponder.Test.csproj": {}
+    "c:\\Users\\marek\\source\\FileResponder\\UU.Lancelot.FileResponder.Test\\UU.Lancelot.FileResponder.Test.csproj": {}
   },
   "projects": {
-    "C:\\Users\\marek\\source\\FileResponder\\UU.Lancelot.FileResponder.Test\\UU.Lancelot.FileResponder.Test.csproj": {
+    "c:\\Users\\marek\\source\\FileResponder\\UU.Lancelot.FileResponder.Test\\UU.Lancelot.FileResponder.Test.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\marek\\source\\FileResponder\\UU.Lancelot.FileResponder.Test\\UU.Lancelot.FileResponder.Test.csproj",
+        "projectUniqueName": "c:\\Users\\marek\\source\\FileResponder\\UU.Lancelot.FileResponder.Test\\UU.Lancelot.FileResponder.Test.csproj",
         "projectName": "UU.Lancelot.FileResponder.Test",
-        "projectPath": "C:\\Users\\marek\\source\\FileResponder\\UU.Lancelot.FileResponder.Test\\UU.Lancelot.FileResponder.Test.csproj",
+        "projectPath": "c:\\Users\\marek\\source\\FileResponder\\UU.Lancelot.FileResponder.Test\\UU.Lancelot.FileResponder.Test.csproj",
         "packagesPath": "C:\\Users\\marek\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\marek\\source\\FileResponder\\UU.Lancelot.FileResponder.Test\\obj\\",
+        "outputPath": "c:\\Users\\marek\\source\\FileResponder\\UU.Lancelot.FileResponder.Test\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -33,8 +33,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\marek\\source\\FileResponder\\UU.Lancelot.FileResponder\\UU.Lancelot.FileResponder.csproj": {
-                "projectPath": "C:\\Users\\marek\\source\\FileResponder\\UU.Lancelot.FileResponder\\UU.Lancelot.FileResponder.csproj"
+              "c:\\Users\\marek\\source\\FileResponder\\UU.Lancelot.FileResponder\\UU.Lancelot.FileResponder.csproj": {
+                "projectPath": "c:\\Users\\marek\\source\\FileResponder\\UU.Lancelot.FileResponder\\UU.Lancelot.FileResponder.csproj"
               }
             }
           }
@@ -95,14 +95,14 @@
         }
       }
     },
-    "C:\\Users\\marek\\source\\FileResponder\\UU.Lancelot.FileResponder\\UU.Lancelot.FileResponder.csproj": {
+    "c:\\Users\\marek\\source\\FileResponder\\UU.Lancelot.FileResponder\\UU.Lancelot.FileResponder.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\marek\\source\\FileResponder\\UU.Lancelot.FileResponder\\UU.Lancelot.FileResponder.csproj",
+        "projectUniqueName": "c:\\Users\\marek\\source\\FileResponder\\UU.Lancelot.FileResponder\\UU.Lancelot.FileResponder.csproj",
         "projectName": "UU.Lancelot.FileResponder",
-        "projectPath": "C:\\Users\\marek\\source\\FileResponder\\UU.Lancelot.FileResponder\\UU.Lancelot.FileResponder.csproj",
+        "projectPath": "c:\\Users\\marek\\source\\FileResponder\\UU.Lancelot.FileResponder\\UU.Lancelot.FileResponder.csproj",
         "packagesPath": "C:\\Users\\marek\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\marek\\source\\FileResponder\\UU.Lancelot.FileResponder\\obj\\",
+        "outputPath": "c:\\Users\\marek\\source\\FileResponder\\UU.Lancelot.FileResponder\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
