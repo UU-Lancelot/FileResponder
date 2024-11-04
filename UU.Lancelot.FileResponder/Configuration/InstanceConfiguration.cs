@@ -6,6 +6,7 @@ public class InstanceConfiguration
     public string? InputDir { get; set; }
     public string? OutputDir { get; set; }
     public string? TemplatePath { get; set; }
+    public List<string>? DataStores { get; set; }
     public static List<InstanceConfiguration>? Instances { get; set; } = new List<InstanceConfiguration>();
 
     public static void LoadInstances()
