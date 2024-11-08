@@ -1,4 +1,3 @@
-
 namespace UU.Lancelot.FileResponder.Configuration;
 public class InstanceConfiguration
 {

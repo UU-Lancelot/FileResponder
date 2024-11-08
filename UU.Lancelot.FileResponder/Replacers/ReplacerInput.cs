@@ -1,11 +1,19 @@
 using System.Xml.XPath;
 using UU.Lancelot.FileResponder.Interfaces;
+using UU.Lancelot.FileResponder.Watch;
 
 
 namespace UU.Lancelot.FileResponder.Replacers;
 
-class ReplacerInput : IReplacer
+public class ReplacerInput : IReplacer
 {
+    private readonly InputFileContext _inputFileContext;
+
+    public ReplacerInput(InputFileContext inputFileContext)
+    {
+        _inputFileContext = inputFileContext;
+    }
+
     public string ReplaceValue(string className, string methodName, string[] parameters)
     {
         switch (methodName)
@@ -20,7 +28,7 @@ class ReplacerInput : IReplacer
 
     string XPath(string expression)
     {
-        string path = @"..\Examples\test.xml";
+        string path = _inputFileContext.FilePath;
         XPathDocument docNav = new XPathDocument(path);
         XPathNavigator nav = docNav.CreateNavigator();
         string strExpression = expression.Trim('"');

@@ -1,42 +1,16 @@
-using UU.Lancelot.FileResponder.Interfaces;
 using System.Text.RegularExpressions;
 using System.Xml;
-using UU.Lancelot.FileResponder.Replacers;
+using UU.Lancelot.FileResponder.Interfaces;
 using UU.Lancelot.FileResponder.PlaceholderProcessing;
-using UU.Lancelot.FileResponder.Configuration;
 
 namespace UU.Lancelot.FileResponder.FormatIO;
 class XmlFormatIO : IFormatIO
 {
-    PlaceholderEvaluator? placeholderEvaluator;
+    private readonly PlaceholderEvaluator _placeholderEvaluator;
 
-    public XmlFormatIO(IServiceProvider serviceProvider)
+    public XmlFormatIO(PlaceholderEvaluator placeholderEvaluator)
     {
-        using (var scope = serviceProvider.CreateScope())
-        {
-            placeholderEvaluator = scope.ServiceProvider.GetRequiredService<PlaceholderEvaluator>();
-        }
-    }
-    public void Format_EventHandler(object sender, (string, InstanceConfiguration) args)
-    {
-        string file = args.Item1;
-        InstanceConfiguration instanceConfiguration = args.Item2;
-        string outputFilePath = instanceConfiguration.OutputDir + file.Substring(instanceConfiguration.InputDir.Length);
-
-        try
-        {
-            using (var input = new FileStream(file, FileMode.Open))
-            using (var output = new FileStream(outputFilePath, FileMode.Create))
-            {
-                Format(input, output);
-            }
-        }
-
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
-        }
-
+        _placeholderEvaluator = placeholderEvaluator;
     }
 
     public void Format(Stream fileContent, Stream resultContent)
@@ -87,6 +61,6 @@ class XmlFormatIO : IFormatIO
 
     public string ReplaceValue(string value)
     {
-        return placeholderEvaluator.Evaluate(value);
+        return _placeholderEvaluator.Evaluate(value);
     }
 }

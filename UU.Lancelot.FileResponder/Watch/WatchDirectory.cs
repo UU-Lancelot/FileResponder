@@ -3,22 +3,23 @@ using UU.Lancelot.FileResponder.Configuration;
 namespace UU.Lancelot.FileResponder.Watch;
 class WatchDirectory : IDisposable
 {
-    private string DirectoryPath;
-    private List<string> knownFiles = new List<string>();
-    private CancellationTokenSource? cancellationTokenSource;
-    public Task? task;
-    private InstanceConfiguration instanceConfiguration;
-    public event EventHandler<(string, InstanceConfiguration)>? pathFileChangedEventHandler;
+    private readonly InstanceConfiguration _instanceConfiguration;
+    private readonly Action<string> _newFileHandler;
+    private List<string> _knownFiles;
+    private CancellationTokenSource? _cancellationTokenSource;
+    public Task? _task;
 
-    public WatchDirectory(InstanceConfiguration instanceConfiguration)
+    public WatchDirectory(InstanceConfiguration instanceConfiguration, Action<string> newFileHandler)
     {
-        this.instanceConfiguration = instanceConfiguration;
-        DirectoryPath = instanceConfiguration.InputDir!;
+        _instanceConfiguration = instanceConfiguration;
+        _newFileHandler = newFileHandler;
+        _knownFiles = new List<string>();
     }
+
     public void StartWatchingDirectory()
     {
-        cancellationTokenSource = new CancellationTokenSource();
-        task = WatchFile(cancellationTokenSource.Token);
+        _cancellationTokenSource = new CancellationTokenSource();
+        _task = WatchFile(_cancellationTokenSource.Token);
     }
 
     private async Task WatchFile(CancellationToken cancellationToken)
@@ -29,7 +30,7 @@ class WatchDirectory : IDisposable
 
             foreach (string file in newFiles)
             {
-                pathFileChangedEventHandler?.Invoke(this, (file, instanceConfiguration));
+                _newFileHandler.Invoke(file);
             }
 
             await Task.Delay(1000);
@@ -37,20 +38,21 @@ class WatchDirectory : IDisposable
     }
     public List<string> SearchFiles()
     {
-        List<string> allFiles = Directory.GetFiles(DirectoryPath).ToList();
-        var newFiles = allFiles.Except(knownFiles).ToList();
+        List<string> allFiles = Directory.GetFiles(_instanceConfiguration.InputDir).ToList();
+        var newFiles = allFiles.Except(_knownFiles).ToList();
 
-        knownFiles = allFiles;
+        _knownFiles = allFiles;
 
         return newFiles;
     }
+
     public void Dispose()
     {
-        if (cancellationTokenSource != null && task != null)
+        if (_cancellationTokenSource != null && _task != null)
         {
-            cancellationTokenSource.Cancel();
-            task.Wait();
-            cancellationTokenSource.Dispose();
+            _cancellationTokenSource.Cancel();
+            _task.Wait();
+            _cancellationTokenSource.Dispose();
         }
     }
 }

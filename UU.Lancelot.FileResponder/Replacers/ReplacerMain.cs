@@ -1,25 +1,22 @@
-using Microsoft.Extensions.DependencyInjection;
 using UU.Lancelot.FileResponder.Interfaces;
 
 namespace UU.Lancelot.FileResponder.Replacers;
 
 class ReplacerMain : IReplacer
 {
-    ReplacerRandom _replacerRandom;
-    ReplacerMath _replacerMath;
-    ReplacerString _replacerString;
-    ReplacerDatetime _replacerDatetime;
-    ReplacerInput _replacerInput;
-    ReplacerDataStore _replacerDataStore;
+    private readonly ReplacerRandom _replacerRandom;
+    private readonly ReplacerMath _replacerMath;
+    private readonly ReplacerString _replacerString;
+    private readonly ReplacerDatetime _replacerDatetime;
+    private readonly ReplacerInput _replacerInput;
 
-    public ReplacerMain(ReplacerDatetime replacerDatetime, ReplacerInput replacerInput, ReplacerMath replacerMath, ReplacerRandom replacerRandom, ReplacerString replacerString, ReplacerDataStore replacerDataStore)
+    public ReplacerMain(ReplacerDatetime replacerDatetime, ReplacerInput replacerInput, ReplacerMath replacerMath, ReplacerRandom replacerRandom, ReplacerString replacerString)
     {
         _replacerDatetime = replacerDatetime;
         _replacerInput = replacerInput;
         _replacerMath = replacerMath;
         _replacerRandom = replacerRandom;
         _replacerString = replacerString;
-        _replacerDataStore = replacerDataStore;
     }
 
     public string ReplaceValue(string className, string methodName, string[] parameters)
@@ -38,8 +35,6 @@ class ReplacerMain : IReplacer
                     return _replacerDatetime.ReplaceValue(className, methodName, parameters);
                 case "Input":
                     return _replacerInput.ReplaceValue(className, methodName, parameters);
-                case "DataStore":
-                    return _replacerDataStore.ReplaceValue(className, methodName, parameters);
                 default:
                     Console.WriteLine($"ReplacerMain Class {className} is not implemented.");
                     return "";

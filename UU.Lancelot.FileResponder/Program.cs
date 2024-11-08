@@ -4,10 +4,10 @@
 using Microsoft.Extensions.Logging.Configuration;
 using Microsoft.Extensions.Logging.EventLog;
 using UU.Lancelot.FileResponder;
-using UU.Lancelot.FileResponder.Configuration;
 using UU.Lancelot.FileResponder.FormatIO;
 using UU.Lancelot.FileResponder.PlaceholderProcessing;
 using UU.Lancelot.FileResponder.Replacers;
+using UU.Lancelot.FileResponder.Watch;
 
 HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 builder.Services.AddWindowsService(options =>
@@ -28,6 +28,7 @@ builder.Services.AddScoped<ReplacerRandom>();
 builder.Services.AddScoped<ReplacerString>();
 builder.Services.AddScoped<XmlFormatIO>();
 builder.Services.AddScoped<PlaceholderEvaluator>();
+builder.Services.AddScoped<InputFileContext>();
 
 builder.Services.AddLogging(configure => configure.AddEventLog());
 
