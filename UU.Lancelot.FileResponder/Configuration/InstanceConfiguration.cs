@@ -28,9 +28,9 @@ public class InstanceConfiguration
         return !File.Exists(path) || new FileInfo(path).Length == 0;
     }
 
-    public static void RemoveInvalidInstances(List<InstanceConfiguration>? instances)
+    public static void RemoveInvalidInstances(List<InstanceConfiguration> instances)
     {
-        instances?.RemoveAll(x => x.IsInvalid());
+        instances.RemoveAll(x => x.IsInvalid());
     }
     public bool IsInvalid()
     {
