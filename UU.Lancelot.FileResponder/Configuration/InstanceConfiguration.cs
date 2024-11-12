@@ -2,36 +2,27 @@ namespace UU.Lancelot.FileResponder.Configuration;
 public class InstanceConfiguration
 {
     const string PATH = "appsettings.json";
-    public string? InputDir { get; set; }
-    public string? OutputDir { get; set; }
-    public string? TemplatePath { get; set; }
-    public string[]? dataStores { get; set; }
+    public string InputDir { get; set; } = string.Empty;
+    public string OutputDir { get; set; } = string.Empty;
+    public string TemplatePath { get; set; } = string.Empty;
+    public string[] DataStores { get; set; } = Array.Empty<string>();
+
+
     public static List<InstanceConfiguration> LoadInstances()
     {
-        List<InstanceConfiguration> Instances = new List<InstanceConfiguration>();
+        List<InstanceConfiguration> instances = new();
 
-        if (!IsFileEmpty(PATH))
-        {
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile(PATH)
-                .Build();
+        if (IsFileEmpty(PATH)) { return instances; }
 
-            var settings = configuration.GetSection("Instances").Get<List<InstanceConfiguration>>();
+        var configuration = new ConfigurationBuilder()
+            .AddJsonFile(PATH)
+            .Build();
 
-            if (settings != null)
-            {
-                RemoveInvalidInstances(settings);
+        instances = configuration.GetSection("Instances").Get<List<InstanceConfiguration>>() ?? new();
+        RemoveInvalidInstances(instances);
 
-                foreach (var setting in settings)
-                {
-                    Instances.Add(setting);
-                }
-            }
-        }
-
-        return Instances;
+        return instances;
     }
-
     static bool IsFileEmpty(string path)
     {
         return !File.Exists(path) || new FileInfo(path).Length == 0;
