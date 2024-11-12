@@ -1,10 +1,15 @@
-using System.IO.Compression;
 using UU.Lancelot.FileResponder.Replacers;
 
 namespace UU.Lancelot.FileResponder.PlaceholderProcessing;
-public class PlaceholderEvaluator
+class PlaceholderEvaluator
 {
-    static ReplacerMain replacerMain = new ReplacerMain();
+    private readonly ReplacerMain _replacerMain;
+
+    public PlaceholderEvaluator(ReplacerMain replacerMain)
+    {
+        _replacerMain = replacerMain;
+    }
+
     public string Evaluate(string placeholder)
     {
         placeholder = placeholder.Trim('{', ' ', '}');
@@ -32,7 +37,7 @@ public class PlaceholderEvaluator
                 parameterArray[i] = ProcessPlaceholder(parameterArray[i]);
             }
         }
-        return replacerMain.ReplaceValue(parts[0], parts[1], parameterArray);
+        return _replacerMain.ReplaceValue(parts[0], parts[1], parameterArray);
     }
     private static string AddDotToFirstBracket(string placeholder)
     {
