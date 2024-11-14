@@ -1,3 +1,4 @@
+using System.Globalization;
 using UU.Lancelot.FileResponder.Interfaces;
 
 namespace UU.Lancelot.FileResponder.Replacers
@@ -24,10 +25,10 @@ namespace UU.Lancelot.FileResponder.Replacers
                     return Multiply(num1, num2).ToString();
                 case "DivideInt":
                     var result = DivideInt(num1, num2);
-                    return result?.ToString() ?? "";
+                    return result?.ToString(CultureInfo.InvariantCulture) ?? ""; // InvariantCulture is used to avoid issues with different cultures
                 case "Divide":
                     var resultDouble = Divide(num1, num2);
-                    return resultDouble?.ToString() ?? "";
+                    return resultDouble?.ToString(CultureInfo.InvariantCulture) ?? ""; // InvariantCulture is used to avoid issues with different cultures
                 default:
                     Console.WriteLine($"Math Replacer Class {methodName} is not implemented.");
                     return "";
