@@ -6,7 +6,8 @@ param (
 $service = Get-Service -Name $ServiceName -ErrorAction SilentlyContinue
 if (-not $service) {
     Write-Host "Služba '$ServiceName' neexistuje."
-    exit 1
+    Write-Host -NoNewLine 'Stiskněte klávesu pro ukončení...';
+    $null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
 }
 
 # Zastavení služby, pokud běží
@@ -19,5 +20,5 @@ sc.exe delete $ServiceName
 
 Write-Host "Služba '$ServiceName' byla úspěšně odinstalována."
 
-# Pozastavení pro přečtení chybových hlášek
-Read-Host "Stiskněte Enter pro ukončení..."
+Write-Host -NoNewLine 'Stiskněte klávesu pro ukončení...';
+$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
