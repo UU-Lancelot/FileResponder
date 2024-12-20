@@ -1,0 +1,5 @@
+<Main>
+	<ahoj id="{{{ For.Repeat(First, 2) }} For.Current(First) a For.Current(First) }}}">
+		{{{ For.Repeat(First, 2) }} For.Current(First) }}}
+	</ahoj>
+</Main>

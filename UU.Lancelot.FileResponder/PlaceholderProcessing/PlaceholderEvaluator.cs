@@ -7,7 +7,8 @@ public class PlaceholderEvaluator
     static ReplacerMain replacerMain = new ReplacerMain();
     public string Evaluate(string placeholder)
     {
-        placeholder = placeholder.Trim('{', ' ', '}');
+        char[] specialChars = { '{', '}', ' ', '\r', '\n', '\t' };
+        placeholder = placeholder.Trim(specialChars);
 
         if (string.IsNullOrEmpty(placeholder))
         {

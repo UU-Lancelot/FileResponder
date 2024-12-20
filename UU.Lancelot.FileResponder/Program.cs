@@ -25,13 +25,10 @@
 
 
 using UU.Lancelot.FileResponder.FormatIO;
-using UU.Lancelot.FileResponder.PlaceholderProcessing;
-
-string placeholder = @"{{{ If.AreEqual(Random.IntRange(0, 6), 0) }} <Looser /> }}}";
 
 XmlFormatIO xmlFormatIO = new XmlFormatIO();
 
-string filepath = @"..\Examples\template.xml";
+string filepath = @"..\Examples\random.xml";
 string resultpath = @"C:\Users\marek\Desktop\result.xml";
 
 using (FileStream fileStream = new FileStream(filepath, FileMode.Open))
