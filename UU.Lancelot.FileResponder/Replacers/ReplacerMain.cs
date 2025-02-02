@@ -28,6 +28,8 @@ class ReplacerMain : IReplacer, IBlockReplacer
                     return replacerDatetime.ReplaceValue(className, methodName, parameters);
                 case "Input":
                     return replacerInput.ReplaceValue(className, methodName, parameters);
+                case "For":
+                return replacerFor.ReplaceValue(className, methodName, parameters);
                 default:
                     Console.WriteLine($"ReplacerMain Class {className} is not implemented.");
                     return "";

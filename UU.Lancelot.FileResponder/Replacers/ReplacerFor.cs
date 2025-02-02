@@ -26,27 +26,39 @@ public class ReplacerFor : IBlockReplacer, IReplacer
 
     public string ReplaceValue(string className, string methodName, string[] parameters)
     {
-        throw new NotImplementedException();
+        switch (methodName)
+        {
+            case "Current":
+                return Current(parameters[0]);
+            default:
+                throw new NotImplementedException();
+        }
     }
 
     private string Repeat(string iterationName, int count, string block)
+    {
+        StringBuilder result = new StringBuilder();
+        XmlFormatIO xmlFormatIO = new XmlFormatIO();
+
+        for (int i = 0; i < count; i++)
         {
-            StringBuilder result = new StringBuilder();
+            _loopVariables[iterationName] = i;
+            Stream stream = new MemoryStream(Encoding.UTF8.GetBytes(block));
+            MemoryStream memoryStream = new MemoryStream();
 
-            for (int i = 0; i < count; i++)
-            {
-                _loopVariables[iterationName] = i;
-                string processedBlock = block.Replace(block, Current(iterationName));
-                result.Append(processedBlock);
-            }
+            xmlFormatIO.Format(stream, memoryStream);
 
-            _loopVariables.Remove(iterationName);
-            return result.ToString();
+            byte[] buff = memoryStream.ToArray();
+            string processedBlock = Encoding.UTF8.GetString(buff, 0, buff.Length);
+            result.Append(processedBlock);
         }
+
+        _loopVariables.Remove(iterationName);
+        return result.ToString();
+    }
 
     private string Current(string variableName)
     {
-        string x = _loopVariables.ContainsKey(variableName) ? _loopVariables[variableName].ToString() : string.Empty;
-        return x;
+        return _loopVariables.ContainsKey(variableName) ? _loopVariables[variableName].ToString() : string.Empty;
     }
 }

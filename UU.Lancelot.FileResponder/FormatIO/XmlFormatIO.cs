@@ -11,10 +11,13 @@ public class XmlFormatIO : IFormatIO
     public void Format(Stream fileContent, Stream resultContent)
     {
         XmlDocument xmlDocument = new XmlDocument();
-        xmlDocument.Load(fileContent);
+        using (XmlReader xmlReader = XmlReader.Create(fileContent, new XmlReaderSettings { ConformanceLevel = ConformanceLevel.Fragment }))
+        {
+            xmlDocument.Load(xmlReader);
+        }
 
         using (StreamWriter streamWriter = new StreamWriter(resultContent))
-        using (XmlWriter xmlWriter = XmlWriter.Create(streamWriter))
+        using (XmlWriter xmlWriter = XmlWriter.Create(streamWriter, new XmlWriterSettings { OmitXmlDeclaration = true }))
         {
             Regex regexSimplePlaceholder = new Regex(@"\{\{(.*)\}\}");
             Regex regexBlockPlaceholder = new Regex(@"\{\{\{(.*)\}\}\}");
@@ -30,7 +33,7 @@ public class XmlFormatIO : IFormatIO
         if (xmlNode == null)
         { return; }
 
-        if (ContaintBlock(xmlNode.InnerXml))
+        if (ContaintBlock(xmlNode.InnerXml.Trim()))
         {
             xmlNode.InnerXml = ReplaceValue(xmlNode.InnerXml);
         }
