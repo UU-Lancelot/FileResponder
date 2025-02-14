@@ -4,11 +4,20 @@ namespace UU.Lancelot.FileResponder.Replacers;
 
 class ReplacerMain : IReplacer
 {
-    static ReplacerRandom replacerRandom = new ReplacerRandom();
-    static ReplacerMath replacerMath = new ReplacerMath();
-    static ReplacerString replacerString = new ReplacerString();
-    static ReplacerDatetime replacerDatetime = new ReplacerDatetime();
-    static ReplacerInput replacerInput = new ReplacerInput();
+    private readonly ReplacerRandom _replacerRandom;
+    private readonly ReplacerMath _replacerMath;
+    private readonly ReplacerString _replacerString;
+    private readonly ReplacerDatetime _replacerDatetime;
+    private readonly ReplacerInput _replacerInput;
+
+    public ReplacerMain(ReplacerDatetime replacerDatetime, ReplacerInput replacerInput, ReplacerMath replacerMath, ReplacerRandom replacerRandom, ReplacerString replacerString)
+    {
+        _replacerDatetime = replacerDatetime;
+        _replacerInput = replacerInput;
+        _replacerMath = replacerMath;
+        _replacerRandom = replacerRandom;
+        _replacerString = replacerString;
+    }
 
     public string ReplaceValue(string className, string methodName, string[] parameters)
     {
@@ -17,15 +26,15 @@ class ReplacerMain : IReplacer
             switch (className)
             {
                 case "Random":
-                    return replacerRandom.ReplaceValue(className, methodName, parameters);
+                    return _replacerRandom.ReplaceValue(className, methodName, parameters);
                 case "Math":
-                    return replacerMath.ReplaceValue(className, methodName, parameters);
+                    return _replacerMath.ReplaceValue(className, methodName, parameters);
                 case "String":
-                    return replacerString.ReplaceValue(className, methodName, parameters);
+                    return _replacerString.ReplaceValue(className, methodName, parameters);
                 case "Datetime":
-                    return replacerDatetime.ReplaceValue(className, methodName, parameters);
+                    return _replacerDatetime.ReplaceValue(className, methodName, parameters);
                 case "Input":
-                    return replacerInput.ReplaceValue(className, methodName, parameters);
+                    return _replacerInput.ReplaceValue(className, methodName, parameters);
                 default:
                     Console.WriteLine($"ReplacerMain Class {className} is not implemented.");
                     return "";

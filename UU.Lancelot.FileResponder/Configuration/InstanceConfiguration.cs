@@ -1,43 +1,36 @@
-
 namespace UU.Lancelot.FileResponder.Configuration;
 public class InstanceConfiguration
 {
     const string PATH = "appsettings.json";
-    public string? InputDir { get; set; }
-    public string? OutputDir { get; set; }
-    public string? TemplatePath { get; set; }
-    public static List<InstanceConfiguration>? Instances { get; set; } = new List<InstanceConfiguration>();
+    public string InputDir { get; set; } = string.Empty;
+    public string OutputDir { get; set; } = string.Empty;
+    public string TemplatePath { get; set; } = string.Empty;
+    public string[] DataStores { get; set; } = Array.Empty<string>();
 
-    public static void LoadInstances()
+
+    public static List<InstanceConfiguration> LoadInstances()
     {
-        if (!IsFileEmpty(PATH))
-        {
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile(PATH)
-                .Build();
-    
-            var settings = configuration.GetSection("Instances").Get<List<InstanceConfiguration>>();
-    
-            if (settings != null)
-            {
-                RemoveInvalidInstances(settings);
-    
-                foreach (var setting in settings)
-                {
-                    Instances?.Add(setting);
-                }
-            }
-        }
-    }
+        List<InstanceConfiguration> instances = new();
 
+        if (IsFileEmpty(PATH)) { return instances; }
+
+        var configuration = new ConfigurationBuilder()
+            .AddJsonFile(PATH)
+            .Build();
+
+        instances = configuration.GetSection("Instances").Get<List<InstanceConfiguration>>() ?? new();
+        RemoveInvalidInstances(instances);
+
+        return instances;
+    }
     static bool IsFileEmpty(string path)
     {
         return !File.Exists(path) || new FileInfo(path).Length == 0;
     }
 
-    public static void RemoveInvalidInstances(List<InstanceConfiguration>? instances)
+    public static void RemoveInvalidInstances(List<InstanceConfiguration> instances)
     {
-        instances?.RemoveAll(x => x.IsInvalid());
+        instances.RemoveAll(x => x.IsInvalid());
     }
     public bool IsInvalid()
     {
