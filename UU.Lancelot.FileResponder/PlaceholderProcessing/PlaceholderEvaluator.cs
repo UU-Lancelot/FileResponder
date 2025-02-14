@@ -1,7 +1,7 @@
 using UU.Lancelot.FileResponder.Replacers;
 
 namespace UU.Lancelot.FileResponder.PlaceholderProcessing;
-class PlaceholderEvaluator
+public class PlaceholderEvaluator
 {
     private readonly ReplacerMain _replacerMain;
 
