@@ -1,10 +1,18 @@
+using  UU.Lancelot.FileResponder.Configuration;
 using UU.Lancelot.FileResponder.PlaceholderProcessing;
+using UU.Lancelot.FileResponder.Replacers;
+using UU.Lancelot.FileResponder.Watch;
 
 namespace UU.Lancelot.FileResponder.Test
 {
     public class PlaceholderEvaluatorTest
     {
-        PlaceholderEvaluator placeholderEvaluator = new PlaceholderEvaluator();
+        PlaceholderEvaluator placeholderEvaluator = new PlaceholderEvaluator(new ReplacerMain(
+            new ReplacerDatetime(), 
+            new ReplacerInput(new InputFileContext { FilePath = "", FileContent = "", InstanceConfiguration = new InstanceConfiguration() }), 
+            new ReplacerMath(), 
+            new ReplacerRandom(), 
+            new ReplacerString()));
 
         [Fact]
         public void TestMathAdd()
